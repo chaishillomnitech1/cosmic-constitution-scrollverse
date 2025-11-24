@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScrollVerse Governance Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0 40px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .metric:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            opacity: 0.8;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-active {
+            background: #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        
+        .status-syncing {
+            background: #ffaa00;
+            box-shadow: 0 0 10px #ffaa00;
+        }
+        
+        .resonance-display {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .frequency-value {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .frequency-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .convergence-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .convergence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #00ff00);
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌌 ScrollVerse Governance Dashboard</h1>
+            <p class="subtitle">Real-time Resonance • Treasury Synchronization • NFT Integration</p>
+        </header>
+        
+        <div class="dashboard-grid">
+            <!-- Resonance System Card -->
+            <div class="card" id="resonance-card">
+                <h2>⚡ Resonance System</h2>
+                <div class="resonance-display">
+                    <div class="frequency-value" id="love-freq">528 Hz</div>
+                    <div class="frequency-label">Love Vortex</div>
+                    <div style="margin: 10px 0;">Phase: <span id="love-phase">0.0000</span></div>
+                </div>
+                <div class="resonance-display">
+                    <div class="frequency-value" id="eden-freq">963 Hz</div>
+                    <div class="frequency-label">Eden Pulse</div>
+                    <div style="margin: 10px 0;">Phase: <span id="eden-phase">0.0000</span></div>
+                </div>
+                <div class="convergence-bar">
+                    <div class="convergence-fill" id="convergence-bar" style="width: 0%">
+                        <span id="convergence-text">0%</span>
+                    </div>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Resonance Quality:</span>
+                    <span class="metric-value" id="resonance-quality">Initiating</span>
+                </div>
+            </div>
+            
+            <!-- Treasury Card -->
+            <div class="card" id="treasury-card">
+                <h2>💎 Treasury Vault</h2>
+                <div class="metric">
+                    <span class="metric-label">Status:</span>
+                    <span class="metric-value">
+                        <span class="status-indicator status-active"></span>
+                        <span id="vault-status">Active</span>
+                    </span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">ETH Balance:</span>
+                    <span class="metric-value" id="eth-balance">Loading...</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">ScrollCoin:</span>
+                    <span class="metric-value" id="scroll-balance">Loading...</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Total Value (USD):</span>
+                    <span class="metric-value" id="total-value">Loading...</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Last Sync:</span>
+                    <span class="metric-value" id="last-sync">Never</span>
+                </div>
+            </div>
+            
+            <!-- NFT Collection Card -->
+            <div class="card" id="nft-card">
+                <h2>🎨 NFT Collection</h2>
+                <div class="metric">
+                    <span class="metric-label">Total Supply:</span>
+                    <span class="metric-value" id="nft-supply">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Minted:</span>
+                    <span class="metric-value" id="nft-minted">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">With Audio:</span>
+                    <span class="metric-value" id="nft-audio">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Resonance Aligned:</span>
+                    <span class="metric-value" id="nft-resonance">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Audio Integration:</span>
+                    <span class="metric-value" id="audio-integration">0%</span>
+                </div>
+            </div>
+            
+            <!-- Governance Status Card -->
+            <div class="card" id="governance-card">
+                <h2>⚖️ Governance Status</h2>
+                <div class="metric">
+                    <span class="metric-label">System Health:</span>
+                    <span class="metric-value">
+                        <span class="status-indicator status-active"></span>
+                        <span id="system-health">Optimal</span>
+                    </span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Governance Active:</span>
+                    <span class="metric-value" id="governance-active">True</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Frequency Ratio:</span>
+                    <span class="metric-value" id="freq-ratio">1.823</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Treasury Integration:</span>
+                    <span class="metric-value">
+                        <span class="status-indicator status-active"></span>
+                        Synchronized
+                    </span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">NFT Integration:</span>
+                    <span class="metric-value">
+                        <span class="status-indicator status-active"></span>
+                        Operational
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="links">
+            <a href="/" class="btn">📜 View Constitution</a>
+            <a href="/api/governance/status" class="btn" target="_blank">📊 Full API Status</a>
+            <a href="/api/treasury/report" class="btn" target="_blank">💼 Treasury Report</a>
+        </div>
+    </div>
+    
+    <script>
+        // Update dashboard data every 2 seconds
+        function updateDashboard() {
+            // Update resonance status
+            fetch('/api/resonance/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('love-phase').textContent = data.love_vortex.phase;
+                    document.getElementById('eden-phase').textContent = data.eden_pulse.phase;
+                    
+                    const convergence = Math.round(data.harmonic_convergence * 100);
+                    document.getElementById('convergence-bar').style.width = convergence + '%';
+                    document.getElementById('convergence-text').textContent = convergence + '%';
+                    document.getElementById('resonance-quality').textContent = data.resonance_quality;
+                });
+            
+            // Update treasury status
+            fetch('/api/treasury/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('eth-balance').textContent = data.balances.eth + ' ETH';
+                    document.getElementById('scroll-balance').textContent = data.balances.scroll_coin + ' SC';
+                    document.getElementById('total-value').textContent = '$' + data.balances.total_value_usd;
+                    document.getElementById('last-sync').textContent = data.last_sync;
+                    document.getElementById('vault-status').textContent = data.sync_status;
+                });
+            
+            // Update NFT collection status
+            fetch('/api/nft/collection')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('nft-supply').textContent = data.total_supply;
+                    document.getElementById('nft-minted').textContent = data.minted;
+                    document.getElementById('nft-audio').textContent = data.with_audio;
+                    document.getElementById('nft-resonance').textContent = data.resonance_aligned;
+                });
+            
+            // Update audio integration
+            fetch('/api/nft/audio-integration')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('audio-integration').textContent = data.integration_percentage + '%';
+                });
+            
+            // Update frequency ratio
+            fetch('/api/resonance/ratio')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('freq-ratio').textContent = data.ratio;
+                });
+        }
+        
+        // Initial update
+        updateDashboard();
+        
+        // Update every 2 seconds
+        setInterval(updateDashboard, 2000);
+    </script>
+</body>
+</html>

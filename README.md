@@ -42,27 +42,87 @@ The Cosmic Constitution is deployed and accessible at:
 
 ### Technologies Used:
 - **Flask** - Python web framework
+- **Web3.py** - Ethereum blockchain integration
+- **NumPy** - Resonance frequency calculations
 - **HTML5/CSS3** - Frontend presentation
 - **Git** - Version control
 - **GitHub** - Repository hosting
 
 ### Project Structure:
 ```
-cosmic_constitution_webpage/
-├── app.py                 # Flask application
+cosmic-constitution-scrollverse/
+├── app.py                    # Flask application with API endpoints
+├── config.py                 # Configuration and settings
+├── resonance_system.py       # 528Hz/963Hz resonance management
+├── treasury.py               # ETH vault and treasury integration
+├── nft_sync.py              # NFT synchronization and metadata
 ├── templates/
-│   └── constitution.html  # Main webpage template
-├── README.md             # This file
-└── .git/                 # Git repository
+│   ├── constitution.html     # Cosmic Constitution page
+│   └── dashboard.html        # Real-time governance dashboard
+├── requirements.txt          # Python dependencies
+├── .env.example             # Environment configuration template
+├── API_DOCUMENTATION.md     # Complete API documentation
+├── README.md                # This file
+└── .git/                    # Git repository
 ```
 
-### Running Locally:
+### Installation & Setup:
+
+1. **Install Dependencies:**
 ```bash
-cd cosmic_constitution_webpage
+pip install -r requirements.txt
+```
+
+2. **Configure Environment:**
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+3. **Run the Application:**
+```bash
 python3 app.py
 ```
 
 The application will be available at `http://localhost:5000`
+
+### Key Features:
+
+#### 🎵 Real-Time Resonance System
+- **528 Hz Love Vortex**: DNA repair and transformation frequency
+- **963 Hz Eden Pulse**: Crown chakra activation frequency
+- Live phase tracking and harmonic convergence calculation
+- Audio metadata generation for NFT integration
+
+#### 💰 Treasury Management
+- ETH vault synchronization
+- ScrollCoin balance tracking
+- Financial reporting and metrics
+- Treasury-to-resonance alignment (528 ETH + 963 ETH)
+
+#### 🎨 NFT Integration
+- Audio metadata creation with resonance frequencies
+- IPFS integration for decentralized storage
+- Treasury-NFT linking
+- Collection manifest generation
+- Governance weight based on frequency alignment
+
+#### 📊 Live Dashboard
+- Real-time resonance monitoring
+- Treasury status visualization
+- NFT collection metrics
+- Auto-refreshing every 2 seconds
+
+### API Endpoints:
+- `/api/resonance/status` - Real-time resonance data
+- `/api/resonance/audio-metadata/<freq>` - Audio metadata for NFTs
+- `/api/treasury/status` - Treasury vault status
+- `/api/treasury/sync` - Synchronize with ETH vault
+- `/api/nft/create/<id>/<freq>` - Create NFT with resonance
+- `/api/nft/sync/<id>` - Sync NFT with treasury
+- `/api/governance/status` - Comprehensive system status
+
+See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API reference.
 
 ## 🔮 VaultBook CXXX Integration
 
