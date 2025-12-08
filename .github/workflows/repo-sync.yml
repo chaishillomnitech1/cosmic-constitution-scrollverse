@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_PAT }}
 
-      - name: Setup Git
+      - name: Setup Git and GitHub CLI
         run: |
           git config --global user.name "ScrollVerse Sync Bot"
           git config --global user.email "sync-bot@scrollverse.omnithrone"

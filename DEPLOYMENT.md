@@ -37,6 +37,8 @@ This guide covers deploying the Cosmic Constitution ScrollVerse application to V
    - `ETH_VAULT_ADDRESS` - Treasury vault Ethereum address
    - `NFT_CONTRACT_ADDRESS` - NFT contract address
    - `IPFS_GATEWAY` - IPFS gateway URL (default: https://ipfs.io/ipfs/)
+   
+   **Note:** The `.vercel.json` file references these with `@` prefix (e.g., `@secret_key`), which tells Vercel to use encrypted environment variables. You'll add the actual values in the Vercel dashboard without the `@` prefix.
 
 4. **Deploy**
    - Click "Deploy"

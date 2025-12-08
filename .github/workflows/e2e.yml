@@ -55,14 +55,14 @@ jobs:
           fi
           echo "✅ Home endpoint: OK"
 
-      - name: Test constitution endpoint
+      - name: Test dashboard endpoint
         run: |
-          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/constitution)
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/dashboard)
           if [ "$response" != "200" ]; then
-            echo "Constitution endpoint failed with status: $response"
+            echo "Dashboard endpoint failed with status: $response"
             exit 1
           fi
-          echo "✅ Constitution endpoint: OK"
+          echo "✅ Dashboard endpoint: OK"
 
       - name: Test API resonance status
         run: |
