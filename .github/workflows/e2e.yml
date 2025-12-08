@@ -1,0 +1,99 @@
+name: E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-flask requests
+
+      - name: Setup test environment
+        run: |
+          cp .env.example .env
+          echo "SECRET_KEY=test-secret-key-for-ci" >> .env
+          echo "DEBUG=True" >> .env
+          echo "ETH_RPC_URL=https://mainnet.infura.io/v3/test" >> .env
+
+      - name: Start application in background
+        run: |
+          python app.py &
+          echo $! > app.pid
+          sleep 5
+
+      - name: Wait for application to be ready
+        run: |
+          timeout 30 bash -c 'until curl -s http://localhost:5000/ > /dev/null; do sleep 1; done'
+
+      - name: Test home endpoint
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/)
+          if [ "$response" != "200" ]; then
+            echo "Home endpoint failed with status: $response"
+            exit 1
+          fi
+          echo "✅ Home endpoint: OK"
+
+      - name: Test constitution endpoint
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/constitution)
+          if [ "$response" != "200" ]; then
+            echo "Constitution endpoint failed with status: $response"
+            exit 1
+          fi
+          echo "✅ Constitution endpoint: OK"
+
+      - name: Test API resonance status
+        run: |
+          response=$(curl -s http://localhost:5000/api/resonance/status)
+          if [ -z "$response" ]; then
+            echo "Resonance API returned empty response"
+            exit 1
+          fi
+          echo "✅ Resonance API: OK"
+          echo "$response" | head -c 200
+
+      - name: Test API governance status
+        run: |
+          response=$(curl -s http://localhost:5000/api/governance/status)
+          if [ -z "$response" ]; then
+            echo "Governance API returned empty response"
+            exit 1
+          fi
+          echo "✅ Governance API: OK"
+          echo "$response" | head -c 200
+
+      - name: Stop application
+        if: always()
+        run: |
+          if [ -f app.pid ]; then
+            kill $(cat app.pid) || true
+            rm app.pid
+          fi
+
+      - name: Display logs on failure
+        if: failure()
+        run: |
+          echo "=== Application Logs ==="
+          cat *.log 2>/dev/null || echo "No log files found"

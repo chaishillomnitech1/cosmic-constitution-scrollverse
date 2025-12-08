@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "name": "cosmic-constitution-scrollverse",
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ],
+  "env": {
+    "SECRET_KEY": "@secret_key",
+    "DEBUG": "False",
+    "ETH_RPC_URL": "@eth_rpc_url",
+    "ETH_VAULT_ADDRESS": "@eth_vault_address",
+    "NFT_CONTRACT_ADDRESS": "@nft_contract_address",
+    "IPFS_GATEWAY": "https://ipfs.io/ipfs/"
+  },
+  "regions": ["iad1"],
+  "framework": null
+}
