@@ -1,0 +1,133 @@
+name: Reward and Mint
+
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to reward'
+        required: true
+        type: number
+      contributor:
+        description: 'GitHub username of contributor'
+        required: true
+        type: string
+
+jobs:
+  reward:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install web3 requests
+
+      - name: Calculate reward
+        id: calculate
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number || context.payload.inputs?.pr_number;
+            const contributor = context.payload.pull_request?.user?.login || context.payload.inputs?.contributor;
+            
+            // Get PR details
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            // Calculate reward based on changes
+            const additions = pr.additions || 0;
+            const deletions = pr.deletions || 0;
+            const changedFiles = pr.changed_files || 0;
+            
+            // Simple reward calculation (conservative pilot)
+            let rewardPoints = 0;
+            rewardPoints += Math.min(additions, 500) * 0.1;
+            rewardPoints += Math.min(deletions, 200) * 0.05;
+            rewardPoints += changedFiles * 5;
+            
+            // Cap rewards for pilot
+            rewardPoints = Math.min(Math.floor(rewardPoints), 100);
+            
+            core.setOutput('points', rewardPoints);
+            core.setOutput('contributor', contributor);
+            core.setOutput('pr_number', prNumber);
+            
+            console.log(`Calculated ${rewardPoints} points for PR #${prNumber} by ${contributor}`);
+
+      - name: Distribute reward (Mumbai Testnet)
+        id: reward
+        run: |
+          node -e "
+          const https = require('https');
+          
+          const rewardData = {
+            contributor: '${{ steps.calculate.outputs.contributor }}',
+            points: ${{ steps.calculate.outputs.points }},
+            pr_number: ${{ steps.calculate.outputs.pr_number }},
+            contract: process.env.REWARDS_CONTRACT_ADDRESS,
+            testnet: 'mumbai'
+          };
+          
+          console.log('🎁 Reward Distribution (PILOT - TESTNET ONLY)');
+          console.log('Contributor:', rewardData.contributor);
+          console.log('Points:', rewardData.points);
+          console.log('PR:', rewardData.pr_number);
+          console.log('Test Wallet:', process.env.PILOT_TEST_WALLET);
+          console.log('Contract:', rewardData.contract);
+          console.log('');
+          console.log('⚠️  This is a PILOT program on Mumbai testnet');
+          console.log('✅ Reward calculated successfully');
+          console.log('');
+          console.log('Next: Implement actual reward distribution when contract is deployed');
+          "
+        env:
+          REWARDS_PRIVATE_KEY: ${{ secrets.REWARDS_PRIVATE_KEY }}
+          ALCHEMY_MUMBAI_URL: ${{ secrets.ALCHEMY_MUMBAI_URL }}
+          REWARDS_API_KEY: ${{ secrets.REWARDS_API_KEY }}
+          REWARDS_CONTRACT_ADDRESS: ${{ secrets.REWARDS_CONTRACT_ADDRESS }}
+          PILOT_TEST_WALLET: ${{ secrets.PILOT_TEST_WALLET }}
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const points = '${{ steps.calculate.outputs.points }}';
+            const contributor = '${{ steps.calculate.outputs.contributor }}';
+            
+            const comment = `## 🎁 Reward Notification (PILOT)
+            
+            Congratulations @${contributor}! Your contribution has been recognized.
+            
+            **Reward Details:**
+            - Points Earned: **${points}**
+            - Network: Mumbai Testnet (Pilot)
+            - Status: ✅ Calculated
+            
+            ---
+            *This is a pilot program. Actual token distribution will be implemented in Phase 3.*
+            
+            ❤️🔥🧬💫🌌 Forever Rewarded. Forever Sacred. Forever One.`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request?.number || context.payload.inputs?.pr_number,
+              body: comment
+            });
