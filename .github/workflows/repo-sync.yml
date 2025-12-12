@@ -1,3 +1,23 @@
+name: Repo Sync
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      sync_direction:
+        description: 'Sync direction (hub-to-repo or repo-to-hub)'
+        required: true
+        default: 'hub-to-repo'
+        type: choice
+        options:
+          - hub-to-repo
+          - repo-to-hub
+
+permissions:
+  contents: write
+  pull-requests: write
 name: Repository Sync
 
 on:
@@ -18,6 +38,7 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,6 +46,122 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_PAT }}
 
+      - name: Setup Git and GitHub CLI
+        run: |
+          git config --global user.name "ScrollVerse Sync Bot"
+          git config --global user.email "sync-bot@scrollverse.omnithrone"
+
+      - name: Check sync configuration
+        id: check-config
+        run: |
+          # Check if this repo should participate in repo-sync
+          # This is determined by presence of .sync-config.json
+          if [ -f ".sync-config.json" ]; then
+            echo "enabled=true" >> $GITHUB_OUTPUT
+            echo "✅ Repo sync enabled"
+          else
+            echo "enabled=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Repo sync not configured - create .sync-config.json to enable"
+            echo "Example configuration:"
+            cat << 'EOF'
+          {
+            "hub_repo": "chaishillomnitech1/scrollverse-hub",
+            "sync_paths": [
+              ".github/workflows/",
+              "SECURITY.md",
+              "CODEOWNERS"
+            ],
+            "sync_direction": "hub-to-repo",
+            "auto_merge": false
+          }
+          EOF
+          fi
+
+      - name: Fetch hub repository
+        if: steps.check-config.outputs.enabled == 'true'
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+        run: |
+          # Check if PAT is configured
+          if [ -z "$GITHUB_PAT" ]; then
+            echo "⚠️ GITHUB_PAT not configured - cannot sync with hub"
+            echo "Add GITHUB_PAT secret to enable repo sync"
+            exit 1
+          fi
+          
+          # Read sync configuration
+          hub_repo=$(jq -r '.hub_repo // "chaishillomnitech1/scrollverse-hub"' .sync-config.json)
+          echo "Hub repository: $hub_repo"
+          
+          # Add hub as remote
+          git remote add hub "https://$GITHUB_PAT@github.com/$hub_repo.git" 2>/dev/null || true
+          git fetch hub main 2>/dev/null || git fetch hub master 2>/dev/null || true
+
+      - name: Sync from hub to repo
+        if: |
+          steps.check-config.outputs.enabled == 'true' &&
+          (github.event_name == 'schedule' || 
+           github.event.inputs.sync_direction == 'hub-to-repo')
+        run: |
+          # Read sync paths
+          sync_paths=$(jq -r '.sync_paths[]' .sync-config.json)
+          
+          # Create sync branch
+          timestamp=$(date +%Y%m%d-%H%M%S)
+          sync_branch="sync/hub-updates-$timestamp"
+          git checkout -b $sync_branch
+          
+          # Sync each configured path
+          changes_made=false
+          for path in $sync_paths; do
+            if git ls-tree -r hub/main --name-only | grep -q "^$path"; then
+              echo "Syncing: $path"
+              git checkout hub/main -- $path 2>/dev/null || echo "Path not found in hub: $path"
+              changes_made=true
+            fi
+          done
+          
+          # Commit and push if changes were made
+          if [ "$changes_made" = true ]; then
+            git add .
+            if git diff --staged --quiet; then
+              echo "No changes to sync"
+            else
+              git commit -m "chore(sync): sync updates from hub
+
+              Synced paths from scrollverse-hub repository
+              - Automated sync via repo-sync workflow"
+              
+              git push origin $sync_branch
+              
+              # Create PR for review
+              gh pr create \
+                --title "chore(sync): Hub repository updates" \
+                --body "Automated sync from hub repository. Please review changes before merging." \
+                --base main \
+                --head $sync_branch
+            fi
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}
+
+      - name: Sync from repo to hub
+        if: |
+          steps.check-config.outputs.enabled == 'true' &&
+          github.event.inputs.sync_direction == 'repo-to-hub'
+        run: |
+          echo "⚠️ Repo-to-hub sync requires manual approval"
+          echo "This operation should be carefully controlled"
+          echo "Use workflow_dispatch with explicit confirmation"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "=== Repo Sync Summary ==="
+          echo "Repository: ${{ github.repository }}"
+          echo "Enabled: ${{ steps.check-config.outputs.enabled }}"
+          echo "Direction: ${{ github.event.inputs.sync_direction || 'hub-to-repo (scheduled)' }}"
+          echo "Status: ${{ job.status }}"
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:

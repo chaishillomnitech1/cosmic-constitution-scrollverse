@@ -3,6 +3,34 @@ name: Reward and Mint
 on:
   pull_request:
     types: [closed]
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      recipient:
+        description: 'Recipient address or GitHub username'
+        required: true
+      amount:
+        description: 'Reward amount'
+        required: true
+        default: '100'
+      reason:
+        description: 'Reason for reward'
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  reward-contributor:
+    runs-on: ubuntu-latest
+    # Only run if PR was merged or manually triggered
+    if: |
+      (github.event.pull_request.merged == true) ||
+      (github.event_name == 'workflow_dispatch')
+    
   workflow_dispatch:
     inputs:
       pr_number:
@@ -27,6 +55,101 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: |
+          npm install --no-save ethers@6
+
+      - name: Calculate reward
+        id: calc-reward
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "amount=${{ github.event.inputs.amount }}" >> $GITHUB_OUTPUT
+            echo "recipient=${{ github.event.inputs.recipient }}" >> $GITHUB_OUTPUT
+            echo "reason=${{ github.event.inputs.reason }}" >> $GITHUB_OUTPUT
+          else
+            # For merged PRs, calculate based on size/complexity
+            lines_added=$(jq -r '.pull_request.additions' <<< '${{ toJson(github.event) }}')
+            lines_deleted=$(jq -r '.pull_request.deletions' <<< '${{ toJson(github.event) }}')
+            files_changed=$(jq -r '.pull_request.changed_files' <<< '${{ toJson(github.event) }}')
+            
+            # Conservative reward calculation (pilot phase)
+            base_reward=50
+            size_bonus=$((lines_added / 100 + lines_deleted / 100))
+            file_bonus=$((files_changed * 5))
+            total=$((base_reward + size_bonus + file_bonus))
+            
+            # Cap at reasonable amount for pilot
+            if [ $total -gt 500 ]; then
+              total=500
+            fi
+            
+            echo "amount=$total" >> $GITHUB_OUTPUT
+            echo "recipient=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
+            echo "reason=Merged PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Mint reward (Test Mode)
+        id: mint
+        env:
+          REWARDS_PRIVATE_KEY: ${{ secrets.REWARDS_PRIVATE_KEY }}
+          REWARDS_CONTRACT_ADDRESS: ${{ secrets.REWARDS_CONTRACT_ADDRESS }}
+          REWARDS_RPC_URL: ${{ secrets.REWARDS_RPC_URL }}
+        run: |
+          # Test mode - log reward without actual minting
+          echo "🎁 Reward Details:"
+          echo "  Recipient: ${{ steps.calc-reward.outputs.recipient }}"
+          echo "  Amount: ${{ steps.calc-reward.outputs.amount }}"
+          echo "  Reason: ${{ steps.calc-reward.outputs.reason }}"
+          
+          # Check if secrets are configured
+          if [ -z "$REWARDS_PRIVATE_KEY" ] || [ -z "$REWARDS_CONTRACT_ADDRESS" ]; then
+            echo "⚠️ Rewards system not configured (test mode)"
+            echo "To enable rewards, add REWARDS_* secrets to repository"
+            echo "tx_hash=test-mode-no-tx" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # TODO: Implement actual minting when contract is deployed
+          # For now, just log the transaction
+          echo "Would mint ${{ steps.calc-reward.outputs.amount }} to ${{ steps.calc-reward.outputs.recipient }}"
+          echo "tx_hash=pending-implementation" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR with reward
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## 🎁 OmniRewards Reward Issued
+
+            **Recipient:** @${{ steps.calc-reward.outputs.recipient }}
+            **Amount:** ${{ steps.calc-reward.outputs.amount }} OMNI
+            **Reason:** ${{ steps.calc-reward.outputs.reason }}
+            **Status:** ${process.env.TX_HASH === 'test-mode-no-tx' ? '⚠️ Test Mode (Configure secrets to enable)' : '✅ Pending Implementation'}
+
+            Thank you for your contribution to the Cosmic Constitution ScrollVerse! ❤️🔥
+
+            ---
+            *Phase 2 Pilot - Conservative reward settings*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+        env:
+          TX_HASH: ${{ steps.mint.outputs.tx_hash }}
+
+      - name: Log reward event
+        run: |
+          echo "=== Reward Event Log ===" >> rewards.log
+          echo "Timestamp: $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> rewards.log
+          echo "Recipient: ${{ steps.calc-reward.outputs.recipient }}" >> rewards.log
+          echo "Amount: ${{ steps.calc-reward.outputs.amount }}" >> rewards.log
+          echo "Reason: ${{ steps.calc-reward.outputs.reason }}" >> rewards.log
+          echo "TX: ${{ steps.mint.outputs.tx_hash }}" >> rewards.log
+          echo "========================" >> rewards.log
+          cat rewards.log
       - name: Setup Python 3.9
         uses: actions/setup-python@v5
         with:

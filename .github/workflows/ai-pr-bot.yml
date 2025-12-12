@@ -3,6 +3,13 @@ name: AI PR Bot
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
 
 permissions:
   pull-requests: write
@@ -11,6 +18,8 @@ permissions:
 jobs:
   ai-review:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,6 +31,86 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Get PR changes
+        id: pr-changes
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git diff origin/${{ github.base_ref }}...HEAD > pr_diff.txt
+          echo "diff_size=$(wc -c < pr_diff.txt)" >> $GITHUB_OUTPUT
+
+      - name: AI Code Review
+        if: steps.pr-changes.outputs.diff_size != '0'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO_FULL_NAME: ${{ github.repository }}
+        run: |
+          # Conservative AI call settings - limit to reasonable diff sizes
+          if [ $(wc -c < pr_diff.txt) -gt 50000 ]; then
+            echo "⚠️ PR diff too large for AI review (>50KB). Skipping detailed AI analysis."
+            echo "Please ensure the PR is focused and reasonable in size."
+            exit 0
+          fi
+
+          # Create review prompt
+          cat > review_prompt.txt << 'EOF'
+          You are a code reviewer for the Cosmic Constitution ScrollVerse project.
+          Review the following git diff and provide:
+          1. Security concerns (if any)
+          2. Code quality issues (if any)
+          3. Suggestions for improvement (if any)
+          4. Positive feedback on good practices
+
+          Be concise and constructive. Format your response in markdown.
+          Focus on Python, Flask, Web3, and smart contract security best practices.
+          EOF
+
+          # Prepare diff for API (properly escaped)
+          diff_content=$(cat pr_diff.txt | head -c 20000 | jq -Rs .)
+          prompt_content=$(cat review_prompt.txt | jq -Rs .)
+          
+          # Call OpenAI API (conservative settings)
+          response=$(curl -s https://api.openai.com/v1/chat/completions \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $OPENAI_API_KEY" \
+            -d "{
+              \"model\": \"gpt-4o-mini\",
+              \"messages\": [
+                {
+                  \"role\": \"system\",
+                  \"content\": $prompt_content
+                },
+                {
+                  \"role\": \"user\",
+                  \"content\": $diff_content
+                }
+              ],
+              \"max_tokens\": 1000,
+              \"temperature\": 0.3
+            }")
+
+          # Extract review content
+          review=$(echo "$response" | jq -r '.choices[0].message.content // "AI review failed"')
+
+          # Post as PR comment
+          curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d @- \
+            "https://api.github.com/repos/$REPO_FULL_NAME/issues/$PR_NUMBER/comments" << COMMENT
+          {
+            "body": "## 🤖 AI Code Review\n\n$review\n\n---\n*Generated with conservative AI settings - Node 20, GPT-4o-mini, max 1000 tokens*"
+          }
+          COMMENT
+
+      - name: Check for security keywords
+        run: |
+          # Simple keyword scan for common security issues
+          if grep -iE "(password|secret|api[_-]?key|private[_-]?key|token)" pr_diff.txt | grep -v "EXAMPLE\|TODO\|\.example\|#"; then
+            echo "⚠️ Warning: Possible hardcoded secrets detected in changes"
+            echo "Please review the changes to ensure no sensitive data is committed"
+          fi
       - name: Get PR diff
         id: get-diff
         run: |
