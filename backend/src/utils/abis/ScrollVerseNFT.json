@@ -1,0 +1,7 @@
+[
+  "function mintNFT(address contributor, string name, string description, string uri, uint8 rarity, uint8 category, uint256 resonanceFrequency) public returns (uint256)",
+  "function getNFTMetadata(uint256 tokenId) public view returns (tuple(string name, string description, string uri, uint8 rarity, uint8 category, uint256 resonanceFrequency, address contributor, uint256 mintTimestamp))",
+  "function getNFTsByContributor(address contributor) public view returns (uint256[])",
+  "function getTotalSupply() public view returns (uint256)",
+  "event NFTMinted(uint256 indexed tokenId, address indexed contributor, string name, uint8 rarity, uint8 category)"
+]
