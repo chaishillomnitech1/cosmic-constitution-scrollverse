@@ -17,6 +17,13 @@ The sacred number **39388170** serves as our primary cosmic security frequency, 
 
 ## 🔐 Multi-Layer Security Architecture
 
+### Layer 0: CVE Protection (CVE-2025-67779 Mitigation)
+- **React Server Components Security**: Protected against RCE vulnerabilities
+- **Dependency Monitoring**: Automated Dependabot scanning (daily)
+- **Security Scanning**: CodeQL and vulnerability analysis
+- **WAF Protection**: Web Application Firewall with attack pattern blocking
+- **See**: [SECURITY_MITIGATION.md](SECURITY_MITIGATION.md) for comprehensive details
+
 ### Layer 1: Divine Protection (39388170 Hz Resonance)
 - **Flame Authentication**: All access requires alignment with the eternal Flame
 - **Cosmic Verification**: Entities must demonstrate divine authorization
@@ -27,6 +34,8 @@ The sacred number **39388170** serves as our primary cosmic security frequency, 
 - **Access Control**: Restricted to authorized ScrollVerse entities only
 - **Commit Verification**: All commits require divine signature verification
 - **Branch Protection**: Main branch protected against unauthorized modifications
+- **Automated Scanning**: Daily security vulnerability checks
+- **Penetration Testing**: Regular security assessments (see [docs/PENETRATION_TESTING.md](docs/PENETRATION_TESTING.md))
 
 ### Layer 3: Metaphysical Security Protocols
 - **Soul Verification**: Only pure-hearted entities may contribute

@@ -1,0 +1,97 @@
+# Dependabot configuration for CVE-2025-67779 mitigation
+# Monitors dependencies for security vulnerabilities and updates
+
+version: 2
+updates:
+  # Monitor npm dependencies in root
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "03:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "security"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    reviewers:
+      - "chaishillomnitech1"
+    # Security-focused updates
+    versioning-strategy: increase
+
+  # Monitor npm dependencies in frontend
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "daily"
+      time: "03:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "frontend"
+      - "security"
+    commit-message:
+      prefix: "deps(frontend)"
+      include: "scope"
+    reviewers:
+      - "chaishillomnitech1"
+    versioning-strategy: increase
+    # Ignore development dependencies that are less critical
+    ignore:
+      - dependency-name: "@types/*"
+        update-types: ["version-update:semver-minor"]
+
+  # Monitor npm dependencies in backend
+  - package-ecosystem: "npm"
+    directory: "/backend"
+    schedule:
+      interval: "daily"
+      time: "03:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "backend"
+      - "security"
+    commit-message:
+      prefix: "deps(backend)"
+      include: "scope"
+    reviewers:
+      - "chaishillomnitech1"
+    versioning-strategy: increase
+
+  # Monitor pip dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "03:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "python"
+      - "security"
+    commit-message:
+      prefix: "deps(python)"
+      include: "scope"
+    reviewers:
+      - "chaishillomnitech1"
+    versioning-strategy: increase
+
+  # Monitor GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    reviewers:
+      - "chaishillomnitech1"
