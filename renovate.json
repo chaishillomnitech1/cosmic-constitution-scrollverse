@@ -81,19 +81,16 @@
       ]
     },
     {
-      "description": "High priority for critical security updates",
+      "description": "High priority for critical security updates in npm and pypi",
       "matchDatasources": [
         "npm",
         "pypi"
       ],
-      "vulnerabilityAlerts": {
-        "labels": [
-          "security",
-          "critical"
-        ],
-        "automerge": true,
-        "prPriority": 20
-      }
+      "labels": [
+        "security",
+        "critical"
+      ],
+      "prPriority": 20
     }
   ],
   "vulnerabilityAlerts": {
