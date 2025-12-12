@@ -13,13 +13,39 @@
       "dest": "app.py"
     }
   ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        }
+      ]
+    }
+  ],
   "env": {
     "SECRET_KEY": "@secret_key",
     "DEBUG": "False",
     "ETH_RPC_URL": "@eth_rpc_url",
     "ETH_VAULT_ADDRESS": "@eth_vault_address",
     "NFT_CONTRACT_ADDRESS": "@nft_contract_address",
-    "IPFS_GATEWAY": "https://ipfs.io/ipfs/"
     "IPFS_GATEWAY": "https://ipfs.io/ipfs/",
     "TREASURY_UPDATE_INTERVAL": "60",
     "RESONANCE_UPDATE_INTERVAL": "5"
