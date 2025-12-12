@@ -27,12 +27,24 @@ instance/
 
 # Environment variables
 .env
+.env.local
+.env.production
+.env.development
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Secrets and keys
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+secrets.json
+.secrets
 
 # IDE
 .vscode/
