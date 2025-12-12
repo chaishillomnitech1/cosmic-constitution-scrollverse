@@ -64,10 +64,13 @@ jobs:
       
       - name: Run npm audit on backend
         if: always()
-        working-directory: ./backend
         run: |
-          echo "🔍 Running npm audit on backend..."
-          npm audit --audit-level=moderate || echo "Audit completed with findings"
+          if [ -f "./backend/package.json" ]; then
+            echo "🔍 Running npm audit on backend..."
+            cd backend && npm audit --audit-level=moderate || echo "Audit completed with findings"
+          else
+            echo "⚠️  No package.json found in backend (Python backend)"
+          fi
         continue-on-error: true
       
       - name: Check for specific CVEs

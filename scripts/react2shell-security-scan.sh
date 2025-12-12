@@ -57,9 +57,9 @@ if [ ! -f "frontend/package.json" ]; then
 fi
 
 # Extract versions from package.json
-REACT_VERSION=$(node -p "require('./frontend/package.json').dependencies.react" 2>/dev/null | sed 's/[^0-9.]//g')
-REACT_DOM_VERSION=$(node -p "require('./frontend/package.json').dependencies['react-dom']" 2>/dev/null | sed 's/[^0-9.]//g')
-NEXT_VERSION=$(node -p "require('./frontend/package.json').dependencies.next" 2>/dev/null | sed 's/[^0-9.]//g')
+REACT_VERSION=$(node -p "require('./frontend/package.json').dependencies.react" 2>/dev/null | sed 's/[^0-9.-]//g')
+REACT_DOM_VERSION=$(node -p "require('./frontend/package.json').dependencies['react-dom']" 2>/dev/null | sed 's/[^0-9.-]//g')
+NEXT_VERSION=$(node -p "require('./frontend/package.json').dependencies.next" 2>/dev/null | sed 's/[^0-9.-]//g')
 
 echo "📦 React Packages:"
 echo "==================="
