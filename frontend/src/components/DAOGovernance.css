@@ -1,0 +1,273 @@
+.dao-governance {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dao-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.dao-header h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.dao-header p {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.create-proposal-button {
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-proposal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.create-proposal-form {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.create-proposal-form h2 {
+  margin-bottom: 1.5rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.submit-button, .cancel-button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.cancel-button {
+  background: #e0e0e0;
+  color: #666;
+}
+
+.proposals-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.proposals-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.proposal-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.proposal-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.proposal-card.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #999;
+}
+
+.proposal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.proposal-header h3 {
+  font-size: 1.4rem;
+  flex: 1;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.ended {
+  background: #e0e0e0;
+  color: #666;
+}
+
+.proposal-description {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.proposal-meta {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.type-badge {
+  padding: 0.25rem 0.75rem;
+  background: #f3e5f5;
+  color: #8e24aa;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.proposal-id {
+  padding: 0.25rem 0.75rem;
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.voting-results {
+  margin-bottom: 1.5rem;
+}
+
+.vote-bar {
+  height: 8px;
+  background: #ffcdd2;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.vote-bar-for {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50 0%, #81c784 100%);
+  transition: width 0.3s ease;
+}
+
+.vote-counts {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.votes-for {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.votes-against {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.voting-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.vote-button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vote-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.vote-for {
+  background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+  color: white;
+}
+
+.vote-for:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.vote-against {
+  background: linear-gradient(135deg, #f44336 0%, #e57373 100%);
+  color: white;
+}
+
+.vote-against:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+}
+
+.voted-badge {
+  text-align: center;
+  padding: 0.75rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.empty-message {
+  text-align: center;
+  color: #999;
+  padding: 3rem;
+}
+
+.dao-message {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.dao-message h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.dao-message p {
+  color: #666;
+  font-size: 1.1rem;
+}
