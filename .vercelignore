@@ -1,4 +1,8 @@
 # Python cache and build artifacts
+# Vercel Ignore File
+# Files and directories to exclude from Vercel deployment
+
+# Python cache
 __pycache__/
 *.py[cod]
 *$py.class
@@ -19,6 +23,17 @@ ENV/
 .env.*.local
 
 # IDE and editor files
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
 .vscode/
 .idea/
 *.swp
@@ -38,6 +53,20 @@ LICENSE
 SECURITY.md
 API_DOCUMENTATION.md
 *.md
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
 
 # Test files
 tests/
@@ -51,3 +80,21 @@ logs/
 
 # CI/CD
 .github/
+*.test.*
+*.spec.*
+
+# Documentation (not needed for deployment)
+*.md
+!README.md
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+
+# Development dependencies
+requirements-dev.txt
+dev-requirements.txt

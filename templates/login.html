@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScrollVerse Authentication - Unstoppable Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a0033 0%, #330066 50%, #1a0033 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cosmic-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(107, 107, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 1;
+            background: rgba(26, 0, 51, 0.9);
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 2em;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .logo .subtitle {
+            font-size: 0.9em;
+            color: #a0a0ff;
+            letter-spacing: 2px;
+        }
+
+        .auth-info {
+            text-align: center;
+            margin: 30px 0;
+            line-height: 1.8;
+        }
+
+        .auth-info h2 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .auth-info p {
+            color: #cccccc;
+            margin-bottom: 10px;
+        }
+
+        .features {
+            background: rgba(255, 107, 107, 0.1);
+            border-left: 3px solid #ff6b6b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .features h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features li {
+            padding: 5px 0;
+            color: #e0e0e0;
+        }
+
+        .features li:before {
+            content: "🔱 ";
+            margin-right: 8px;
+        }
+
+        .btn-uauth {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-uauth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .btn-uauth:active {
+            transform: translateY(0);
+        }
+
+        .decentralized-badge {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(107, 107, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        .decentralized-badge span {
+            color: #a0a0ff;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .status-message {
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .status-message.error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: #ff6b6b;
+        }
+
+        .status-message.success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid rgba(0, 255, 0, 0.5);
+            color: #6bff6b;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 107, 107, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(255, 107, 107, 0.8); }
+        }
+
+        .glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-bg"></div>
+    
+    <div class="login-container">
+        <div class="logo">
+            <h1 class="glow">🔱 ScrollVerse</h1>
+            <div class="subtitle">COSMIC CONSTITUTION AUTHENTICATION</div>
+        </div>
+
+        <div class="auth-info">
+            <h2>Decentralized Authentication</h2>
+            <p>Access the ScrollVerse governance system using your Unstoppable Domain identity.</p>
+        </div>
+
+        <div class="features">
+            <h3>Protected Operations:</h3>
+            <ul>
+                <li>Treasury Vault Synchronization</li>
+                <li>NFT Creation & Management</li>
+                <li>Guardian Access Controls</li>
+                <li>Governance Status Monitoring</li>
+            </ul>
+        </div>
+
+        <div id="statusMessage" class="status-message"></div>
+
+        <button class="btn-uauth" id="loginBtn" onclick="initiateLogin()">
+            🔐 Login with Unstoppable Domains
+        </button>
+
+        <div class="decentralized-badge">
+            <span>🌐 Powered by Unstoppable Domains</span>
+        </div>
+    </div>
+
+    <script>
+        function initiateLogin() {
+            const btn = document.getElementById('loginBtn');
+            const statusMsg = document.getElementById('statusMessage');
+            
+            btn.disabled = true;
+            btn.textContent = '🔄 Initializing authentication...';
+            
+            fetch('/auth/login')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.authorization_url) {
+                        statusMsg.className = 'status-message success';
+                        statusMsg.textContent = 'Redirecting to Unstoppable Domains...';
+                        statusMsg.style.display = 'block';
+                        
+                        // Redirect to authorization URL
+                        setTimeout(() => {
+                            window.location.href = data.authorization_url;
+                        }, 1000);
+                    } else if (data.error) {
+                        showError(data.message || 'Authentication is not configured');
+                        btn.disabled = false;
+                        btn.textContent = '🔐 Login with Unstoppable Domains';
+                    }
+                })
+                .catch(error => {
+                    showError('Failed to initialize authentication: ' + error.message);
+                    btn.disabled = false;
+                    btn.textContent = '🔐 Login with Unstoppable Domains';
+                });
+        }
+
+        function showError(message) {
+            const statusMsg = document.getElementById('statusMessage');
+            statusMsg.className = 'status-message error';
+            statusMsg.textContent = message;
+            statusMsg.style.display = 'block';
+            
+            setTimeout(() => {
+                statusMsg.style.display = 'none';
+            }, 5000);
+        }
+
+        // Check if already authenticated
+        fetch('/auth/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.authenticated) {
+                    window.location.href = '/dashboard';
+                }
+            })
+            .catch(error => console.error('Status check error:', error));
+    </script>
+</body>
+</html>

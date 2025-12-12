@@ -18,6 +18,22 @@ on:
 permissions:
   contents: write
   pull-requests: write
+name: Repository Sync
+
+on:
+  schedule:
+    # Run daily at 00:00 UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      sync_direction:
+        description: 'Sync direction (upstream or mirror)'
+        required: true
+        default: 'upstream'
+        type: choice
+        options:
+          - upstream
+          - mirror
 
 jobs:
   sync:
@@ -146,3 +162,92 @@ jobs:
           echo "Enabled: ${{ steps.check-config.outputs.enabled }}"
           echo "Direction: ${{ github.event.inputs.sync_direction || 'hub-to-repo (scheduled)' }}"
           echo "Status: ${{ job.status }}"
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync with upstream
+        if: github.event.inputs.sync_direction == 'upstream' || github.event_name == 'schedule'
+        run: |
+          echo "🔄 Syncing with upstream repository (if configured)"
+          
+          # Check if upstream is configured
+          if git remote | grep -q upstream; then
+            echo "Upstream remote found"
+            git fetch upstream
+            
+            # Get current branch
+            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+            
+            # Sync main branch
+            git checkout main 2>/dev/null || git checkout -b main origin/main
+            
+            # Check if upstream/main exists
+            if git rev-parse --verify upstream/main >/dev/null 2>&1; then
+              echo "Merging upstream/main into main"
+              git merge upstream/main --no-edit || {
+                echo "⚠️  Merge conflict detected. Manual intervention required."
+                exit 1
+              }
+              
+              # Push changes
+              git push origin main
+              echo "✅ Successfully synced with upstream"
+            else
+              echo "⚠️  upstream/main branch not found"
+            fi
+            
+            # Return to original branch
+            git checkout $CURRENT_BRANCH
+          else
+            echo "ℹ️  No upstream remote configured"
+            echo "To configure upstream:"
+            echo "git remote add upstream <UPSTREAM_REPO_URL>"
+          fi
+
+      - name: Sync to mirror
+        if: github.event.inputs.sync_direction == 'mirror'
+        run: |
+          echo "🪞 Syncing to mirror repository (if configured)"
+          
+          # Check if mirror is configured
+          if git remote | grep -q mirror; then
+            echo "Mirror remote found"
+            
+            # Push to mirror
+            git push mirror --all --force
+            git push mirror --tags --force
+            
+            echo "✅ Successfully synced to mirror"
+          else
+            echo "ℹ️  No mirror remote configured"
+            echo "To configure mirror:"
+            echo "git remote add mirror <MIRROR_REPO_URL>"
+          fi
+
+      - name: Report sync status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const syncDirection = context.payload.inputs?.sync_direction || 'upstream';
+            const status = process.env.SYNC_STATUS || 'completed';
+            
+            console.log(`Repository sync ${syncDirection}: ${status}`);
+            
+            // Optional: Create an issue if sync fails
+            if (status === 'failed') {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `⚠️ Repository sync failed - ${new Date().toISOString()}`,
+                body: `The automated repository sync workflow encountered an error.\n\nSync direction: ${syncDirection}\n\nPlease review the workflow logs and resolve any conflicts manually.`,
+                labels: ['automation', 'sync-issue']
+              });
+            }

@@ -1,0 +1,21 @@
+.wallet-connect {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.wallet-connect button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.wallet-connect button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}

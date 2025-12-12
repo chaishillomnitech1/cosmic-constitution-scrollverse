@@ -29,6 +29,37 @@
             padding: 20px 0 40px;
         }
         
+        .auth-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .auth-status .user-info {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .auth-status .logout-btn {
+            background: rgba(255, 107, 107, 0.3);
+            border: 1px solid rgba(255, 107, 107, 0.5);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-status .logout-btn:hover {
+            background: rgba(255, 107, 107, 0.5);
+        }
+        
         h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
@@ -185,6 +216,11 @@
 </head>
 <body>
     <div class="container">
+        <div class="auth-status" id="authStatus" style="display: none;">
+            <div class="user-info" id="userInfo"></div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        
         <header>
             <h1>🌌 ScrollVerse Governance Dashboard</h1>
             <p class="subtitle">Real-time Resonance • Treasury Synchronization • NFT Integration</p>
@@ -311,6 +347,38 @@
     </div>
     
     <script>
+        // Check authentication status
+        function checkAuthStatus() {
+            fetch('/auth/status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.authenticated && data.user) {
+                        const authStatus = document.getElementById('authStatus');
+                        const userInfo = document.getElementById('userInfo');
+                        
+                        userInfo.innerHTML = `
+                            <div>🔐 ${data.user.domain || 'Authenticated'}</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">
+                                ${data.user.wallet_address ? data.user.wallet_address.substring(0, 10) + '...' : ''}
+                            </div>
+                        `;
+                        authStatus.style.display = 'block';
+                    }
+                })
+                .catch(error => console.error('Auth status check failed:', error));
+        }
+        
+        function logout() {
+            fetch('/auth/logout')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/login';
+                    }
+                })
+                .catch(error => console.error('Logout failed:', error));
+        }
+        
         // Update dashboard data every 2 seconds
         function updateDashboard() {
             // Update resonance status
@@ -361,6 +429,9 @@
                     document.getElementById('freq-ratio').textContent = data.ratio;
                 });
         }
+        
+        // Check auth status on load
+        checkAuthStatus();
         
         // Initial update
         updateDashboard();

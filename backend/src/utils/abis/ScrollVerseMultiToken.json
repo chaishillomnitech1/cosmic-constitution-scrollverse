@@ -1,0 +1,7 @@
+[
+  "function createToken(string name, string description, uint256 maxSupply, uint256 resonanceFrequency, string tokenURI) public returns (uint256)",
+  "function mint(address to, uint256 tokenId, uint256 amount) public",
+  "function getTokenMetadata(uint256 tokenId) public view returns (tuple(string name, string description, uint256 maxSupply, uint256 currentSupply, uint256 resonanceFrequency, bool exists))",
+  "function getTotalTokenTypes() public view returns (uint256)",
+  "event TokenCreated(uint256 indexed tokenId, string name, uint256 maxSupply, uint256 resonanceFrequency)"
+]

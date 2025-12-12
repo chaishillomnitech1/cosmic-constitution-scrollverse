@@ -20,6 +20,14 @@
     "ETH_VAULT_ADDRESS": "@eth_vault_address",
     "NFT_CONTRACT_ADDRESS": "@nft_contract_address",
     "IPFS_GATEWAY": "https://ipfs.io/ipfs/"
+    "IPFS_GATEWAY": "https://ipfs.io/ipfs/",
+    "TREASURY_UPDATE_INTERVAL": "60",
+    "RESONANCE_UPDATE_INTERVAL": "5"
+  },
+  "build": {
+    "env": {
+      "PYTHON_VERSION": "3.9"
+    }
   },
   "regions": ["iad1"],
   "framework": null

@@ -32,3 +32,9 @@ class Config:
     # Resonance system settings
     RESONANCE_SAMPLE_RATE = 44100  # Hz - Standard audio sample rate
     RESONANCE_UPDATE_INTERVAL = int(os.getenv('RESONANCE_UPDATE_INTERVAL', '5'))  # seconds
+    
+    # UAuth (Unstoppable Domains Authentication) settings
+    UAUTH_CLIENT_ID = os.getenv('UAUTH_CLIENT_ID', '')
+    UAUTH_CLIENT_SECRET = os.getenv('UAUTH_CLIENT_SECRET', '')
+    UAUTH_REDIRECT_URI = os.getenv('UAUTH_REDIRECT_URI', 'http://localhost:5000/auth/callback')
+    UAUTH_ENABLED = os.getenv('UAUTH_ENABLED', 'False').lower() == 'true'
