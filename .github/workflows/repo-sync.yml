@@ -233,7 +233,7 @@ jobs:
 
       - name: Report sync status
         if: always()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const syncDirection = context.payload.inputs?.sync_direction || 'upstream';
