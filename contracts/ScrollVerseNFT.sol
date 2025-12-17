@@ -5,7 +5,6 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 /**
  * @title ScrollVerseNFT
@@ -13,9 +12,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
  * Supports metadata fields, rarity levels, and category grouping
  */
 contract ScrollVerseNFT is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
-    using Counters for Counters.Counter;
     
-    Counters.Counter private _tokenIdCounter;
+    uint256 private _tokenIdCounter;
     
     // Rarity levels
     enum Rarity { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
@@ -77,8 +75,8 @@ contract ScrollVerseNFT is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
         require(bytes(name).length > 0, "Name cannot be empty");
         require(bytes(uri).length > 0, "URI cannot be empty");
         
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
+        uint256 tokenId = _tokenIdCounter;
+        _tokenIdCounter++;
         
         _safeMint(contributor, tokenId);
         _setTokenURI(tokenId, uri);
@@ -238,7 +236,7 @@ contract ScrollVerseNFT is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
      * @dev Get total supply
      */
     function getTotalSupply() public view returns (uint256) {
-        return _tokenIdCounter.current();
+        return _tokenIdCounter;
     }
     
     // Override required functions
