@@ -15,19 +15,23 @@ from celestial_stability import (
     DeterministicCoherenceEngine, CelestialMarketAnalyzer
 )
 
+# Test Constants
+TEST_PROTOCOL_VERSION = "3.0"
+TEST_TENSOR_CAPACITY = 1000000
+
 
 class TestGeminiFlashProtocol:
     """Test Gemini 3 Flash Protocol core functionality"""
     
     def setup_method(self):
         """Setup test fixtures"""
-        self.flash_protocol = GeminiFlashProtocol(protocol_version="3.0", flash_mode=True)
+        self.flash_protocol = GeminiFlashProtocol(protocol_version=TEST_PROTOCOL_VERSION, flash_mode=True)
     
     def test_initialization(self):
         """Test protocol initialization"""
-        assert self.flash_protocol.protocol_version == "3.0"
+        assert self.flash_protocol.protocol_version == TEST_PROTOCOL_VERSION
         assert self.flash_protocol.flash_mode is True
-        assert self.flash_protocol.tensor_capacity == 1000000
+        assert self.flash_protocol.tensor_capacity == TEST_TENSOR_CAPACITY
         assert self.flash_protocol.processing_speed == "lightning"
     
     def test_activate_stardust_mode(self):
@@ -36,8 +40,8 @@ class TestGeminiFlashProtocol:
         
         assert result['status'] == 'active'
         assert result['mode'] == 'stardust'
-        assert result['protocol_version'] == "3.0"
-        assert result['tensor_capacity'] == 1000000
+        assert result['protocol_version'] == TEST_PROTOCOL_VERSION
+        assert result['tensor_capacity'] == TEST_TENSOR_CAPACITY
         assert result['processing_speed'] == 'lightning'
         assert result['flash_enabled'] is True
         assert result['enhancement_level'] == 'maximum'

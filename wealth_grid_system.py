@@ -8,6 +8,9 @@ from typing import Dict, List, Optional
 from datetime import datetime, timedelta
 import numpy as np
 
+# Constants
+ARK_VAULT_THRESHOLD_10T = 10_000_000_000_000  # $10 Trillion
+
 
 class WealthGrid:
     """
@@ -83,7 +86,7 @@ class ZeroPointWealthSystem:
         self.flash_protocol = flash_protocol
         self.wealth_grids = {}
         self.ark_vault_value = 0
-        self.threshold_10t = 10_000_000_000_000  # $10 Trillion
+        self.threshold_10t = ARK_VAULT_THRESHOLD_10T
         self.frontier_efficiency = 1.0
         
     def create_wealth_grid(self, grid_name: str, initial_value: float) -> str:
