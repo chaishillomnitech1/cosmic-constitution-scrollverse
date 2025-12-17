@@ -1,3 +1,14 @@
+# Dependabot configuration for automated dependency updates
+# Addresses: CVE-2025-55184, CVE-2025-55183, CVE-2025-67779 mitigation
+version: 2
+updates:
+  # Enable Dependabot for npm dependencies in root
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
 # Dependabot configuration for CVE-2025-67779 mitigation
 # Monitors dependencies for security vulnerabilities and updates
 
@@ -14,6 +25,22 @@ updates:
       - "dependencies"
       - "security"
     commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    ignore:
+      # Ignore major version updates for stable dependencies
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    # Enable security updates
+    versioning-strategy: increase
+
+  # Enable Dependabot for npm dependencies in frontend
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
       prefix: "deps"
       include: "scope"
     reviewers:
@@ -33,6 +60,18 @@ updates:
       - "frontend"
       - "security"
     commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    # Allow patch and minor updates automatically
+    versioning-strategy: increase
+
+  # Enable Dependabot for npm dependencies in backend
+  - package-ecosystem: "npm"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
       prefix: "deps(frontend)"
       include: "scope"
     reviewers:
@@ -55,6 +94,17 @@ updates:
       - "backend"
       - "security"
     commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    versioning-strategy: increase
+
+  # Enable Dependabot for Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
       prefix: "deps(backend)"
       include: "scope"
     reviewers:
@@ -73,6 +123,11 @@ updates:
       - "python"
       - "security"
     commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    versioning-strategy: increase
+
+  # Enable Dependabot for GitHub Actions
       prefix: "deps(python)"
       include: "scope"
     reviewers:
@@ -85,12 +140,15 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
+      time: "09:00"
       time: "03:00"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
       - "github-actions"
     commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
       prefix: "ci"
       include: "scope"
     reviewers:
