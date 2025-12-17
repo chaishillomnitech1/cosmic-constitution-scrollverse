@@ -8,6 +8,8 @@
     "deploy:local": "hardhat run scripts/deploy.js --network localhost",
     "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
     "deploy:mumbai": "hardhat run scripts/deploy.js --network mumbai",
+    "deploy:scrollsoul:mumbai": "hardhat run scripts/deployScrollSoulPleiadian.js --network mumbai",
+    "deploy:scrollsoul:sepolia": "hardhat run scripts/deployScrollSoulPleiadian.js --network sepolia",
     "node": "hardhat node",
     "clean": "hardhat clean",
     "security:slither": "slither contracts/",

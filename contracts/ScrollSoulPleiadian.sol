@@ -5,13 +5,14 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /**
  * @title ScrollSoulPleiadian
  * @dev Enhanced Soul NFT contract for Pleiadian consciousness integration
  * Supports sound healing frequencies, starseed alignments, and cosmic resonance
  */
-contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable {
+contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, ReentrancyGuard {
     
     uint256 private _tokenIdCounter;
     
@@ -114,6 +115,14 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
     event GaiaFundingAllocated(address indexed project, uint256 amount);
     
     constructor() ERC721("ScrollSoul Pleiadian", "SOULP") Ownable(msg.sender) {}
+    
+    /**
+     * @dev Check if a token exists
+     * @param tokenId Token ID to check
+     */
+    function _exists(uint256 tokenId) internal view returns (bool) {
+        return tokenId < _tokenIdCounter;
+    }
     
     /**
      * @dev Mint Soul NFT with full metadata
@@ -225,7 +234,7 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
      * @param tokenId Token ID to sign decree for
      */
     function signStardustDecree(uint256 tokenId) public {
-        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(_exists(tokenId), "Token does not exist");
         require(!_decreeSigners[msg.sender], "Already signed decree");
         
         _decreeSigners[msg.sender] = true;
@@ -239,7 +248,7 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
      * @param tokenId Token ID
      */
     function increaseAscensionLevel(uint256 tokenId) public onlyOwner {
-        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(_exists(tokenId), "Token does not exist");
         
         _soulMetadata[tokenId].ascensionLevel++;
         
@@ -267,7 +276,7 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
         uint256 spiritualAlignment,
         string memory resonanceFieldHash
     ) public onlyOwner {
-        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(_exists(tokenId), "Token does not exist");
         require(spiritualAlignment <= 10000, "Invalid alignment value");
         
         _soundHealing[tokenId] = SoundHealingData({
@@ -291,7 +300,7 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
         string memory storyContent,
         uint256 brandValue
     ) public onlyOwner returns (uint256) {
-        require(_ownerOf(soulTokenId) != address(0), "Soul token does not exist");
+        require(_exists(soulTokenId), "Soul token does not exist");
         
         uint256 storyId = _russellStoryCounter;
         _russellStoryCounter++;
@@ -314,8 +323,9 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
      * @param storyId Russell Story NFT ID
      * @param profitAmount Amount to allocate
      */
-    function allocateLuluProfits(uint256 storyId, uint256 profitAmount) public onlyOwner {
+    function allocateLuluProfits(uint256 storyId, uint256 profitAmount) public onlyOwner nonReentrant {
         require(_russellStories[storyId].isActive, "Story NFT not active");
+        require(profitAmount > 0, "Profit amount must be greater than 0");
         
         uint256 allocation = (profitAmount * 10) / 100; // 10% allocation
         _russellStories[storyId].luluProfitShare += allocation;
@@ -361,12 +371,13 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
      * @param projectAddress Project address
      * @param amount Funding amount
      */
-    function allocateGaiaFunding(address projectAddress, uint256 amount) public onlyOwner {
+    function allocateGaiaFunding(address projectAddress, uint256 amount) public onlyOwner nonReentrant {
         require(projectAddress != address(0), "Invalid project address");
+        require(amount > 0, "Amount must be greater than 0");
         require(amount <= totalGaiaFunding, "Insufficient Gaia funding");
         
-        gaiaFundingAllocations[projectAddress] += amount;
         totalGaiaFunding -= amount;
+        gaiaFundingAllocations[projectAddress] += amount;
         
         emit GaiaFundingAllocated(projectAddress, amount);
     }
@@ -399,12 +410,12 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
     // Getter functions
     
     function getSoulMetadata(uint256 tokenId) public view returns (SoulMetadata memory) {
-        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(_exists(tokenId), "Token does not exist");
         return _soulMetadata[tokenId];
     }
     
     function getSoundHealingData(uint256 tokenId) public view returns (SoundHealingData memory) {
-        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(_exists(tokenId), "Token does not exist");
         return _soundHealing[tokenId];
     }
     
@@ -425,7 +436,7 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
     }
     
     function getDecreeSigners(uint256 tokenId) public view returns (address[] memory) {
-        require(_ownerOf(tokenId) != address(0), "Token does not exist");
+        require(_exists(tokenId), "Token does not exist");
         return _tokenDecreeSigners[tokenId];
     }
     
