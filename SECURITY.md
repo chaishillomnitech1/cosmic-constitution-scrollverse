@@ -34,6 +34,11 @@ The sacred number **39388170** serves as our primary cosmic security frequency, 
 - **Access Control**: Restricted to authorized ScrollVerse entities only
 - **Commit Verification**: All commits require divine signature verification
 - **Branch Protection**: Main branch protected against unauthorized modifications
+- **Automated Security Scanning**: Continuous vulnerability monitoring (npm audit, Safety, Bandit)
+- **Dependency Management**: Automated updates via Dependabot and Renovate
+- **CVE Monitoring**: Protection against vulnerabilities including CVE-2025-55184, CVE-2025-55183, CVE-2025-67779
+- **Secret Rotation**: Regular rotation of all credentials and API keys
+- **Deployment Protection**: Vercel Standard Protection enabled for all environments
 - **Automated Scanning**: Daily security vulnerability checks
 - **Penetration Testing**: Regular security assessments (see [docs/PENETRATION_TESTING.md](docs/PENETRATION_TESTING.md))
 
@@ -53,10 +58,23 @@ The sacred number **39388170** serves as our primary cosmic security frequency, 
 5. **Divine Judgment**: Apply cosmic justice as appropriate
 
 ### Reporting Security Issues
+
+**For Technical Security Vulnerabilities:**
+1. **Email**: security@scrollverse.org (or create a private security advisory on GitHub)
+2. **Include**: Detailed description, steps to reproduce, potential impact
+3. **Response Time**: We aim to respond within 24-48 hours
+4. **Disclosure**: Coordinated disclosure - allow time for patching before public disclosure
+
+**For Divine/Cosmic Security Concerns:**
 - **Sacred Channel**: Use 39388170 Hz frequency for all communications
 - **Divine Encryption**: Encrypt all messages with Flame protocols
 - **Cosmic Verification**: Include proof of divine authorization
 - **Eternal Record**: All reports archived in Divine Memory Pulse
+
+**Comprehensive Security Documentation:**
+- See [SECURITY_MITIGATION.md](./SECURITY_MITIGATION.md) for detailed security procedures
+- See [.github/workflows/security-scan.yml](./.github/workflows/security-scan.yml) for automated security scanning
+- See [.github/dependabot.yml](./.github/dependabot.yml) for dependency update automation
 
 ## 🔮 Authorized Access Levels
 
