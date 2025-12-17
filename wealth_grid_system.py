@@ -14,14 +14,18 @@ class WealthGrid:
     Individual Wealth Grid with closed circuit and deterministic coherence
     """
     
+    # Default compounding rate (12% annual)
+    DEFAULT_COMPOUNDING_RATE = 0.12
+    
     def __init__(self, grid_id: str, initial_value: float, 
-                 circuit_closed: bool = True):
+                 circuit_closed: bool = True, compounding_rate: float = None):
         self.grid_id = grid_id
         self.initial_value = initial_value
         self.current_value = initial_value
         self.circuit_closed = circuit_closed
-        self.compounding_rate = 0.12  # 12% annual rate
+        self.compounding_rate = compounding_rate if compounding_rate is not None else self.DEFAULT_COMPOUNDING_RATE
         self.creation_time = time.time()
+        self.last_compound_time = time.time()
         self.transaction_history = []
         self.steadiness_protocol_active = False
         
@@ -47,7 +51,9 @@ class WealthGrid:
         
         # Compound interest: A = P(1 + r)^t
         time_years = time_elapsed_days / 365.0
+        # Use initial_value for calculation from creation time
         self.current_value = self.initial_value * (1 + self.compounding_rate) ** time_years
+        self.last_compound_time = time.time()
         
         return self.current_value
     
@@ -206,7 +212,9 @@ class ZeroPointWealthSystem:
         growth_factor = grid.current_value / grid.initial_value
         time_factor = (time.time() - grid.creation_time) / 86400 / 365  # Years
         
-        if time_factor == 0:
+        # Use epsilon to avoid division by very small numbers
+        epsilon = 1e-6
+        if time_factor < epsilon:
             return growth_factor
         
         return growth_factor / (1 + time_factor)

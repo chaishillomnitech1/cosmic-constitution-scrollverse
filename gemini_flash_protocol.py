@@ -9,6 +9,10 @@ from typing import Dict, List, Tuple, Optional
 from datetime import datetime
 import hashlib
 
+# Constants
+MAX_UINT32 = 0xFFFFFFFF
+PARETO_NORMALIZATION_FACTOR = 1000000
+
 
 class GeminiFlashProtocol:
     """
@@ -225,7 +229,7 @@ class GeminiFlashProtocol:
     
     def _calculate_pareto_efficiency(self, value: float, efficiency: float) -> float:
         """Calculate Pareto efficiency score"""
-        base_score = min(value / 1000000, 1.0) if value > 0 else 0
+        base_score = min(value / PARETO_NORMALIZATION_FACTOR, 1.0) if value > 0 else 0
         efficiency_factor = efficiency * 0.5
         return min(base_score + efficiency_factor, 1.0)
     
@@ -254,7 +258,7 @@ class GeminiFlashProtocol:
         
         # Hash-based deterministic coherence
         data_hash = hashlib.sha256(str(trigger_data).encode()).hexdigest()
-        coherence_value = int(data_hash[:8], 16) / 0xFFFFFFFF
+        coherence_value = int(data_hash[:8], 16) / MAX_UINT32
         return coherence_value
     
     def _calculate_intelligence_edges(self) -> Dict:

@@ -8,6 +8,10 @@ from typing import Dict, List, Optional
 from datetime import datetime, timedelta
 import hashlib
 
+# Constants for normalization
+MAX_UINT32 = 0xFFFFFFFF
+STABILITY_SCALE_FACTOR = 1000
+
 
 class InterstellarSimulation:
     """
@@ -191,7 +195,7 @@ class CelestialStabilityMetrics:
     def _calculate_stability_score(self, value: float) -> float:
         """Calculate stability score for a metric value"""
         # Normalize to 0-1 range with sigmoid function
-        normalized = 1 / (1 + np.exp(-value / 1000))
+        normalized = 1 / (1 + np.exp(-value / STABILITY_SCALE_FACTOR))
         return min(normalized, 1.0)
     
     def _calculate_pareto_score(self, value: float) -> float:
@@ -231,7 +235,7 @@ class DeterministicCoherenceEngine:
         
         # Fallback deterministic validation
         coherence_hash = hashlib.sha256(str(data).encode()).hexdigest()
-        coherence_score = int(coherence_hash[:8], 16) / 0xFFFFFFFF
+        coherence_score = int(coherence_hash[:8], 16) / MAX_UINT32
         
         trigger = {
             'data': data,
