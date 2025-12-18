@@ -72,10 +72,10 @@ async function main() {
 
   const deploymentsDir = './deployments';
   if (!fs.existsSync(deploymentsDir)) {
-    fs.mkdirSync(deploymentsDir);
+    fs.mkdirSync(deploymentsDir, { recursive: true });
   }
 
-  fs.writeFileSync(
+  await fs.promises.writeFile(
     `${deploymentsDir}/mansion-chain-${hre.network.name}.json`,
     JSON.stringify(deploymentInfo, null, 2)
   );
