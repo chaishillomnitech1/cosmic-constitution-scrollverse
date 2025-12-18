@@ -11,10 +11,18 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
  * @title ScrollSoulPleiadian
  * @dev Enhanced Soul NFT contract for Pleiadian consciousness integration
  * Supports sound healing frequencies, starseed alignments, and cosmic resonance
+ * Enhanced with Gemini 3 Flash Protocol for Lightning Speed Teleportation and real-time rendering
  */
 contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Ownable, ReentrancyGuard {
     
     uint256 private _tokenIdCounter;
+    
+    // Gemini 3 Flash Protocol Integration
+    bool public geminiFlashEnabled;
+    uint256 public flashProtocolVersion;
+    uint256 public tensorCapacity;
+    mapping(uint256 => bool) private _stardustModeActive;
+    mapping(uint256 => uint256) private _lightningSpeedMultiplier;
     
     // Soul Rarity levels aligned with cosmic frequencies
     enum SoulRarity { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY, COSMIC, PLEIADIAN }
@@ -114,7 +122,20 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
     
     event GaiaFundingAllocated(address indexed project, uint256 amount);
     
-    constructor() ERC721("ScrollSoul Pleiadian", "SOULP") Ownable(msg.sender) {}
+    event GeminiFlashActivated(uint256 protocolVersion, uint256 tensorCapacity);
+    
+    event StardustModeActivated(uint256 indexed tokenId, uint256 lightningSpeedMultiplier);
+    
+    event LightningTeleportationExecuted(uint256 indexed tokenId, address from, address to, uint256 timestamp);
+    
+    constructor() ERC721("ScrollSoul Pleiadian", "SOULP") Ownable(msg.sender) {
+        // Initialize Gemini 3 Flash Protocol
+        geminiFlashEnabled = true;
+        flashProtocolVersion = 3;
+        tensorCapacity = 1000000;
+        
+        emit GeminiFlashActivated(flashProtocolVersion, tensorCapacity);
+    }
     
     /**
      * @dev Check if a token exists
@@ -454,6 +475,92 @@ contract ScrollSoulPleiadian is ERC721, ERC721URIStorage, ERC721Enumerable, Owna
     
     function getTotalUnityGridChronicles() public view returns (uint256) {
         return _chronicleCounter;
+    }
+    
+    // Gemini 3 Flash Protocol Functions
+    
+    /**
+     * @dev Activate Stardust Mode for a soul token
+     * @param tokenId Token ID to activate
+     */
+    function activateStardustMode(uint256 tokenId) public onlyOwner {
+        require(_exists(tokenId), "Token does not exist");
+        require(geminiFlashEnabled, "Gemini Flash not enabled");
+        
+        _stardustModeActive[tokenId] = true;
+        _lightningSpeedMultiplier[tokenId] = 1500; // 1.5x speed multiplier (1000 = 1.0x)
+        
+        emit StardustModeActivated(tokenId, _lightningSpeedMultiplier[tokenId]);
+    }
+    
+    /**
+     * @dev Execute Lightning Speed Teleportation
+     * @param tokenId Token ID to teleport
+     * @param to Destination address
+     */
+    function lightningTeleportation(uint256 tokenId, address to) public nonReentrant {
+        require(_exists(tokenId), "Token does not exist");
+        require(ownerOf(tokenId) == msg.sender, "Not token owner");
+        require(to != address(0), "Invalid destination");
+        require(_stardustModeActive[tokenId], "Stardust mode not active");
+        
+        address from = msg.sender;
+        
+        // Execute instant transfer with Flash Protocol
+        _transfer(from, to, tokenId);
+        
+        emit LightningTeleportationExecuted(tokenId, from, to, block.timestamp);
+    }
+    
+    /**
+     * @dev Get Gemini Flash Protocol status
+     */
+    function getGeminiFlashStatus() public view returns (
+        bool enabled,
+        uint256 version,
+        uint256 capacity,
+        uint256 activeStardustTokens
+    ) {
+        uint256 activeCount = 0;
+        for (uint256 i = 0; i < _tokenIdCounter; i++) {
+            if (_stardustModeActive[i]) {
+                activeCount++;
+            }
+        }
+        
+        return (geminiFlashEnabled, flashProtocolVersion, tensorCapacity, activeCount);
+    }
+    
+    /**
+     * @dev Check if token has Stardust Mode active
+     * @param tokenId Token ID to check
+     */
+    function isStardustModeActive(uint256 tokenId) public view returns (bool) {
+        require(_exists(tokenId), "Token does not exist");
+        return _stardustModeActive[tokenId];
+    }
+    
+    /**
+     * @dev Get Lightning Speed Multiplier for token
+     * @param tokenId Token ID
+     */
+    function getLightningSpeedMultiplier(uint256 tokenId) public view returns (uint256) {
+        require(_exists(tokenId), "Token does not exist");
+        return _lightningSpeedMultiplier[tokenId];
+    }
+    
+    /**
+     * @dev Update Gemini Flash Protocol settings
+     * @param enabled Enable/disable Flash protocol
+     * @param version Protocol version
+     * @param capacity Tensor capacity
+     */
+    function updateGeminiFlashSettings(bool enabled, uint256 version, uint256 capacity) public onlyOwner {
+        geminiFlashEnabled = enabled;
+        flashProtocolVersion = version;
+        tensorCapacity = capacity;
+        
+        emit GeminiFlashActivated(version, capacity);
     }
     
     // Override required functions
