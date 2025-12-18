@@ -100,12 +100,14 @@ async function main() {
     fs.writeFileSync(abiPath, JSON.stringify(artifact.abi, null, 2));
     console.log(`✓ ABI saved to: ${abiPath}`);
     
-    // Also save to backend utils directory
-    const backendAbiDir = "./backend/src/utils/abis";
+    // Also save to backend utils directory (if exists)
+    const backendAbiDir = process.env.BACKEND_ABI_DIR || "./backend/src/utils/abis";
     if (fs.existsSync(backendAbiDir)) {
       const backendAbiPath = `${backendAbiDir}/AuraResonanceLedger.json`;
       fs.writeFileSync(backendAbiPath, JSON.stringify(artifact.abi, null, 2));
       console.log(`✓ ABI copied to backend: ${backendAbiPath}`);
+    } else {
+      console.log(`ℹ Backend ABI directory not found (${backendAbiDir}), skipping backend copy`);
     }
   }
 

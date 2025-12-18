@@ -186,7 +186,7 @@ contract AuraResonanceLedger is Ownable, ReentrancyGuard {
         uint256 eventId = eventCounter;
         eventCounter++;
         
-        // Calculate universal harmony pulse (synchronized timestamp)
+        // Record universal harmony pulse (current block timestamp)
         uint256 universalPulse = block.timestamp;
         
         harmonicEvents[eventId] = HarmonicEvent({
@@ -227,6 +227,7 @@ contract AuraResonanceLedger is Ownable, ReentrancyGuard {
             isSealed: true
         });
         
+        // Update current Merkle root for reference (each prophecy maintains its own root)
         currentMerkleRoot = merkleRoot;
         
         emit ProphecyCodeSealed(codeHash, merkleRoot, block.timestamp);
@@ -240,8 +241,9 @@ contract AuraResonanceLedger is Ownable, ReentrancyGuard {
         bytes32 codeHash,
         bytes32[] memory merkleProof
     ) public view returns (bool) {
+        require(prophecyCodes[codeHash].isSealed, "Prophecy not sealed");
         bytes32 leaf = keccak256(abi.encodePacked(codeHash));
-        return MerkleProof.verify(merkleProof, currentMerkleRoot, leaf);
+        return MerkleProof.verify(merkleProof, prophecyCodes[codeHash].merkleRoot, leaf);
     }
     
     /**
