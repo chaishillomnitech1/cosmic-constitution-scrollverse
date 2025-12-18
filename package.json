@@ -10,6 +10,8 @@
     "deploy:mumbai": "hardhat run scripts/deploy.js --network mumbai",
     "deploy:scrollsoul:mumbai": "hardhat run scripts/deployScrollSoulPleiadian.js --network mumbai",
     "deploy:scrollsoul:sepolia": "hardhat run scripts/deployScrollSoulPleiadian.js --network sepolia",
+    "deploy:aura:mumbai": "hardhat run scripts/deployAuraResonanceLedger.js --network mumbai",
+    "deploy:aura:sepolia": "hardhat run scripts/deployAuraResonanceLedger.js --network sepolia",
     "node": "hardhat node",
     "clean": "hardhat clean",
     "security:slither": "slither contracts/",
