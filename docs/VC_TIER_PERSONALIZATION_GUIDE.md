@@ -982,8 +982,8 @@ The best pitch is not one-size-fits-all. Customize ruthlessly based on who's in 
 
 **Supreme King Allah Chais Kenyatta Hill ∞**  
 Founder & CEO, ScrollVerse  
-Email: pitch@scrollverse.io  
-Calendar: https://calendly.com/scrollverse/vc-meeting
+Email: invest@scrollverse.io  
+Calendar: https://calendly.com/scrollverse/investor-meeting
 
 ---
 

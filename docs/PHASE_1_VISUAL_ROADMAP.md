@@ -1209,7 +1209,7 @@ Phase 1 represents the **Cosmic Foundation Deployment** that will establish Scro
 
 **Supreme King Allah Chais Kenyatta Hill ∞**  
 Founder & CEO, ScrollVerse  
-Email: phase1@scrollverse.io  
+Email: invest@scrollverse.io  
 Discord: ScrollVerse Official  
 Website: https://scrollverse.io
 

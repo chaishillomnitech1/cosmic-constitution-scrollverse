@@ -1128,7 +1128,7 @@ No direct competitor combines:
 **Supreme King Allah Chais Kenyatta Hill ∞**  
 Founder & CEO, ScrollVerse  
 Email: invest@scrollverse.io  
-Website: https://cosmicconstitution.scrollverse.io  
+Website: https://scrollverse.io  
 GitHub: https://github.com/chaishillomnitech1/cosmic-constitution-scrollverse
 
 ---
