@@ -10,6 +10,7 @@ from celestial_stability import (
     InterstellarSimulation, CelestialStabilityMetrics,
     DeterministicCoherenceEngine, CelestialMarketAnalyzer
 )
+from medair_api import setup_medair_routes
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -70,6 +71,11 @@ def login_page():
 def dashboard():
     """Render the governance dashboard"""
     return render_template('dashboard.html')
+
+@app.route('/medair')
+def medair_dashboard():
+    """Render the MedAir blockchain dashboard"""
+    return render_template('medair_dashboard.html')
 
 # Authentication endpoints
 @app.route('/auth/login')
@@ -499,6 +505,9 @@ def comprehensive_status():
         'resonance_system': resonance_system.get_resonance_state(),
         'timestamp': resonance_system.get_resonance_state()['timestamp']
     })
+
+# Setup MedAir API routes
+setup_medair_routes(app)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

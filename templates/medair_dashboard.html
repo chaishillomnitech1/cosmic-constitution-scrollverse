@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAir Blockchain Dashboard | ScrollVerse</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #60a5fa, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #10b981;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .metric {
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+
+        .tier-list {
+            margin-top: 15px;
+        }
+
+        .tier-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 8px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #60a5fa;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .feature-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-item::before {
+            content: "✓";
+            margin-right: 10px;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .quantum-section {
+            background: linear-gradient(135deg, rgba(126, 34, 206, 0.3), rgba(96, 165, 250, 0.3));
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .coherence-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .coherence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #60a5fa);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(45deg, #60a5fa, #c084fc);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin: 10px 5px;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+        }
+
+        .timestamp {
+            text-align: center;
+            opacity: 0.7;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚁 MedAir Blockchain Dashboard</h1>
+            <p>Phase-Two Integration | Quantum AI | Immutable Governance</p>
+            <span class="status-badge" id="ecosystem-status">OPERATIONAL</span>
+            <div style="margin-top: 20px;">
+                <button class="refresh-btn" onclick="loadDashboard()">🔄 Refresh Data</button>
+                <button class="refresh-btn" onclick="toggleAutoRefresh()">⏱️ Auto-Refresh</button>
+            </div>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="pulse">Loading MedAir Ecosystem...</div>
+        </div>
+
+        <div id="dashboard" style="display: none;">
+            <!-- Staking Section -->
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">💰</div>
+                        <div class="card-title">Adaptive Staking</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Total Staked</div>
+                        <div class="metric-value" id="total-staked">0 MEDAIR</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Average APY</div>
+                        <div class="metric-value" id="average-apy">0%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Reward Pool</div>
+                        <div class="metric-value" id="reward-pool">0 MEDAIR</div>
+                    </div>
+                    <div class="tier-list" id="tier-list"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🏛️</div>
+                        <div class="card-title">DAO Governance</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Total Proposals</div>
+                        <div class="metric-value" id="total-proposals">0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Quorum Threshold</div>
+                        <div class="metric-value" id="quorum">80%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Executed Proposals</div>
+                        <div class="metric-value" id="executed-proposals">0</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🛡️</div>
+                        <div class="card-title">Insurance Pool</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Total Policies</div>
+                        <div class="metric-value" id="total-policies">0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Liquidity Pool</div>
+                        <div class="metric-value" id="liquidity-pool">0 MEDAIR</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Total Payouts</div>
+                        <div class="metric-value" id="total-payouts">0 MEDAIR</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quantum AI Section -->
+            <div class="quantum-section">
+                <h2>🔮 Quantum AI Dispatch System</h2>
+                <div class="metric">
+                    <div class="metric-label">Current Coherence</div>
+                    <div class="coherence-bar">
+                        <div class="coherence-fill" id="coherence-bar" style="width: 0%">0%</div>
+                    </div>
+                </div>
+                <div class="grid" style="margin-top: 20px;">
+                    <div class="metric">
+                        <div class="metric-label">Self-Healing Status</div>
+                        <div class="metric-value">ACTIVE</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Neural Optimization</div>
+                        <div class="metric-value">ENABLED</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Coherence Threshold</div>
+                        <div class="metric-value">95%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">✨</div>
+                    <div class="card-title">Ecosystem Features</div>
+                </div>
+                <ul class="feature-list">
+                    <li class="feature-item">Tier-Based Staking Rewards (Pilots, Medical Professionals, DAO Members)</li>
+                    <li class="feature-item">Chainlink Oracle Integration for Real-Time Metrics</li>
+                    <li class="feature-item">80% Quorum Auto-Consensus System</li>
+                    <li class="feature-item">Cross-Chain DAO Governance (Layer-Z Compatible)</li>
+                    <li class="feature-item">Quantum AI Dispatch with Self-Healing</li>
+                    <li class="feature-item">Tokenized Insurance Payouts via $MEDAIR Pools</li>
+                    <li class="feature-item">zkEVM Compatible Smart Contracts</li>
+                    <li class="feature-item">Immutable Governance Framework</li>
+                </ul>
+            </div>
+
+            <div class="timestamp" id="timestamp">Last updated: --</div>
+        </div>
+    </div>
+
+    <script>
+        let autoRefreshInterval = null;
+
+        async function loadDashboard() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('dashboard').style.display = 'none';
+
+                const response = await fetch('/api/medair/status');
+                const data = await response.json();
+
+                // Update staking data
+                const staking = data.components.staking;
+                document.getElementById('total-staked').textContent = 
+                    staking.total_staked_medair.toLocaleString() + ' MEDAIR';
+                document.getElementById('average-apy').textContent = 
+                    staking.average_apy.toFixed(2) + '%';
+                document.getElementById('reward-pool').textContent = 
+                    staking.reward_pool_balance.toLocaleString() + ' MEDAIR';
+
+                // Update tier list
+                const tierList = document.getElementById('tier-list');
+                tierList.innerHTML = '<div style="margin-top: 15px; font-weight: bold;">Staking Tiers:</div>';
+                Object.entries(staking.tiers).forEach(([tier, info]) => {
+                    tierList.innerHTML += `
+                        <div class="tier-item">
+                            <span>${tier.replace('_', ' ')}</span>
+                            <span>+${info.bonus_apy}% APY</span>
+                        </div>
+                    `;
+                });
+
+                // Update DAO data
+                const dao = data.components.dao_governance;
+                document.getElementById('total-proposals').textContent = dao.total_proposals;
+                document.getElementById('quorum').textContent = dao.quorum_percentage + '%';
+                document.getElementById('executed-proposals').textContent = dao.executed_proposals;
+
+                // Update insurance data
+                const insurance = data.components.insurance;
+                document.getElementById('total-policies').textContent = insurance.total_policies;
+                document.getElementById('liquidity-pool').textContent = 
+                    insurance.liquidity_pool_balance.toLocaleString() + ' MEDAIR';
+                document.getElementById('total-payouts').textContent = 
+                    insurance.total_payouts.toLocaleString() + ' MEDAIR';
+
+                // Update quantum data
+                const quantum = data.components.quantum_dispatch;
+                if (quantum.status === 'operational' && quantum.quantum_coherence.status !== 'no_data') {
+                    const coherence = quantum.quantum_coherence.current_average_coherence * 100;
+                    document.getElementById('coherence-bar').style.width = coherence + '%';
+                    document.getElementById('coherence-bar').textContent = coherence.toFixed(1) + '%';
+                } else {
+                    document.getElementById('coherence-bar').style.width = '0%';
+                    document.getElementById('coherence-bar').textContent = 'Initializing...';
+                }
+
+                // Update status badge
+                document.getElementById('ecosystem-status').textContent = 
+                    data.ecosystem_status.toUpperCase().replace('_', ' ');
+
+                // Update timestamp
+                document.getElementById('timestamp').textContent = 
+                    'Last updated: ' + new Date().toLocaleString();
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                document.getElementById('loading').innerHTML = 
+                    '<div style="color: #ef4444;">Error loading dashboard. Please try again.</div>';
+            }
+        }
+
+        function toggleAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+                alert('Auto-refresh disabled');
+            } else {
+                autoRefreshInterval = setInterval(loadDashboard, 10000); // Refresh every 10 seconds
+                alert('Auto-refresh enabled (10 seconds)');
+            }
+        }
+
+        // Load dashboard on page load
+        window.addEventListener('load', loadDashboard);
+    </script>
+</body>
+</html>
