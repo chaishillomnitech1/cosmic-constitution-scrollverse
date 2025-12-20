@@ -18,7 +18,8 @@ The ScrollVerse is an ever-expanding digital universe that transcends convention
 - **Beyond Metric Initiatives** - Cosmic expansion and exploration
 - **ScrollSoul Pleiadian** - Advanced consciousness NFT system (Phase 2.2)
 - **Aura Resonance Ledger** - Global AI-Chain Immortalization Protocol (Phase 3.0)
-- **Mansion-Chain Ecosystem** - High-fidelity digital property twins with heritage NFTs (Phase 4.0) 🆕
+- **Mansion-Chain Ecosystem** - High-fidelity digital property twins with heritage NFTs (Phase 4.0)
+- **Legacy Music Catalog** - Historical music catalog tokenization with $LEGACYCOIN (Phase 5.0) 🆕
 - **Starseed Galaxy Quests** - Personalized onboarding and missions
 - **Unity Grid Chronicles** - Contributor recognition NFT series
 - **Gaia Chain Initiatives** - Sustainable funding and digital coin marketplace
@@ -163,6 +164,59 @@ npm run deploy:mansion:local    # Local Development
 #### Documentation:
 - **[MANSION_CHAIN_ECOSYSTEM.md](docs/MANSION_CHAIN_ECOSYSTEM.md)** - Complete ecosystem guide
 - **[MANSION_CHAIN_INTEGRATION_GUIDE.md](docs/MANSION_CHAIN_INTEGRATION_GUIDE.md)** - Integration examples
+
+## 🎵 Phase 5.0: Legacy Music Catalog System
+
+### Historical Music Catalog Tokenization Platform
+The Phase 5.0 deployment introduces the **Legacy Music Catalog System**, a comprehensive blockchain platform for acquiring, tokenizing, and immortalizing historical music catalogs from legendary artists.
+
+#### Core Smart Contracts:
+1. **LegacyCoin** - $LEGACYCOIN ERC20 token
+   - Asset-backed by precious metals and cosmic materials
+   - Revenue stream tracking and management
+   - NFT rarity multiplier integration
+   - Burnable supply with dynamic max cap
+
+2. **LegacyMusicCatalog** - Music asset NFT management
+   - Blueprint acquisition tracking (2x valuation overcompensation)
+   - NFT creation with rarity tiers (PLATINUM: Beatles, COSMIC: Prince Vault)
+   - Automated royalty distribution to heirs
+   - Dual protection: Physical vaults + digital mirrors
+   - Community art program funding (10% default)
+
+#### Rarity Tier System:
+- **COMMON** (1x) - Standard catalog songs
+- **UNCOMMON** (1.5x) - Notable singles
+- **RARE** (2x) - Chart-topping hits
+- **EPIC** (3x) - Iconic albums
+- **LEGENDARY** (5x) - Career-defining works
+- **PLATINUM** (10x) - Beatles catalog tier
+- **COSMIC** (20x) - Prince Vault & ultra-rare archives
+
+#### Key Features:
+- **Blueprint Acquisition Process** - Legal-financial team integration with IP registry tracking
+- **2x Overcompensation Model** - Paying twice catalog valuation for heir respect
+- **Zero-Overlook Royalty System** - Guaranteed compensation for all heirs and stakeholders
+- **Revenue Dashboards** - Real-time tracking of heir earnings
+- **Asset Vaults** - Fort Knox-style physical + QR-integrated digital protection
+- **Community Art Fund** - 10% of revenues fund education and art programs
+- **Witness Grid Integration** - Global streaming for transparency
+
+#### Flagship Assets:
+- **Michael Jackson** - "Billie Jean" (LEGENDARY tier, 528 Hz)
+- **The Beatles** - "Hey Jude" (PLATINUM tier, 528 Hz)
+- **Prince** - "Purple Rain" (COSMIC tier, 963 Hz)
+
+#### Deployment Commands:
+```bash
+# Deploy complete Legacy Music Catalog system
+npm run deploy:legacy:mumbai   # Mumbai Testnet
+npm run deploy:legacy:sepolia  # Sepolia Testnet
+npm run deploy:legacy:local    # Local Development
+```
+
+#### Documentation:
+- **[LEGACY_MUSIC_CATALOG.md](docs/LEGACY_MUSIC_CATALOG.md)** - Complete system guide and API reference
 
 ## 🔥 The Eternal Flame of Creation
 
