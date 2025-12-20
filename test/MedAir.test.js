@@ -5,6 +5,16 @@ describe("MedAir Ecosystem Tests", function () {
   let medairToken, sigilToken, medairStaking, medairOracle, medairDAO;
   let owner, pilot, medicalProf, daoMember, user1, user2;
 
+  // Test constants for better maintainability
+  const STAKE_AMOUNT_SMALL = ethers.parseEther("1000");
+  const STAKE_AMOUNT_MEDIUM = ethers.parseEther("5000");
+  const STAKE_AMOUNT_LARGE = ethers.parseEther("10000");
+  const REWARD_POOL_AMOUNT = ethers.parseEther("1000000");
+  const SIGIL_DISTRIBUTION = ethers.parseEther("5000");
+  const DAO_PROPOSAL_THRESHOLD = ethers.parseEther("2000");
+  const FLIGHT_LIQUIDITY_AMOUNT = ethers.parseEther("100000");
+  const EMERGENCY_RESERVE_AMOUNT = ethers.parseEther("50000");
+
   beforeEach(async function () {
     [owner, pilot, medicalProf, daoMember, user1, user2] = await ethers.getSigners();
 
@@ -48,45 +58,38 @@ describe("MedAir Ecosystem Tests", function () {
     await medairStaking.addVerifier(await medairOracle.getAddress());
 
     // Fund reward pool
-    const rewardAmount = ethers.parseEther("1000000");
-    await medairToken.approve(await medairStaking.getAddress(), rewardAmount);
-    await medairStaking.fundRewardPool(rewardAmount);
+    await medairToken.approve(await medairStaking.getAddress(), REWARD_POOL_AMOUNT);
+    await medairStaking.fundRewardPool(REWARD_POOL_AMOUNT);
 
     // Distribute tokens for testing
-    await medairToken.transfer(pilot.address, ethers.parseEther("10000"));
-    await medairToken.transfer(medicalProf.address, ethers.parseEther("10000"));
-    await sigilToken.transfer(daoMember.address, ethers.parseEther("5000"));
+    await medairToken.transfer(pilot.address, STAKE_AMOUNT_LARGE);
+    await medairToken.transfer(medicalProf.address, STAKE_AMOUNT_LARGE);
+    await sigilToken.transfer(daoMember.address, SIGIL_DISTRIBUTION);
   });
 
   describe("1. MedAir Staking - Tier-Based Rewards", function () {
     it("Should allow staking with different tiers", async function () {
-      const stakeAmount = ethers.parseEther("1000");
-      
       // Pilot stakes
-      await medairToken.connect(pilot).approve(await medairStaking.getAddress(), stakeAmount);
-      await medairStaking.connect(pilot).stake(stakeAmount, 1); // PILOT tier
+      await medairToken.connect(pilot).approve(await medairStaking.getAddress(), STAKE_AMOUNT_SMALL);
+      await medairStaking.connect(pilot).stake(STAKE_AMOUNT_SMALL, 1); // PILOT tier
       
       const stakeInfo = await medairStaking.getStakeInfo(pilot.address);
-      expect(stakeInfo.amount).to.equal(stakeAmount);
+      expect(stakeInfo.amount).to.equal(STAKE_AMOUNT_SMALL);
       expect(stakeInfo.tier).to.equal(1); // PILOT
     });
 
     it("Should calculate effective APY based on tier", async function () {
-      const stakeAmount = ethers.parseEther("1000");
-      
       // Medical professional stakes
-      await medairToken.connect(medicalProf).approve(await medairStaking.getAddress(), stakeAmount);
-      await medairStaking.connect(medicalProf).stake(stakeAmount, 2); // MEDICAL_PROF tier
+      await medairToken.connect(medicalProf).approve(await medairStaking.getAddress(), STAKE_AMOUNT_SMALL);
+      await medairStaking.connect(medicalProf).stake(STAKE_AMOUNT_SMALL, 2); // MEDICAL_PROF tier
       
       const effectiveAPY = await medairStaking.getEffectiveAPY(medicalProf.address);
       expect(effectiveAPY).to.equal(1500); // BASE_APY (1000) + MEDICAL_BONUS (500)
     });
 
     it("Should apply coherence bonus when threshold is met", async function () {
-      const stakeAmount = ethers.parseEther("1000");
-      
-      await medairToken.connect(pilot).approve(await medairStaking.getAddress(), stakeAmount);
-      await medairStaking.connect(pilot).stake(stakeAmount, 1);
+      await medairToken.connect(pilot).approve(await medairStaking.getAddress(), STAKE_AMOUNT_SMALL);
+      await medairStaking.connect(pilot).stake(STAKE_AMOUNT_SMALL, 1);
       
       // Update coherence via oracle
       await medairOracle.updateCoherence(pilot.address, 96, 96);
@@ -101,24 +104,22 @@ describe("MedAir Ecosystem Tests", function () {
 
   describe("2. Liquidity Pool Management", function () {
     it("Should allocate funds to flight liquidity pool", async function () {
-      const allocationAmount = ethers.parseEther("100000");
       const flightId = 123;
       
-      await medairStaking.allocateFlightLiquidity(allocationAmount, flightId);
+      await medairStaking.allocateFlightLiquidity(FLIGHT_LIQUIDITY_AMOUNT, flightId);
       
       const poolStatus = await medairStaking.getLiquidityPoolStatus();
-      expect(poolStatus.flightPool).to.equal(allocationAmount);
+      expect(poolStatus.flightPool).to.equal(FLIGHT_LIQUIDITY_AMOUNT);
       expect(poolStatus.activeFlights).to.equal(1);
     });
 
     it("Should activate emergency reserve", async function () {
-      const reserveAmount = ethers.parseEther("50000");
       const reason = "Critical emergency response required";
       
-      await medairStaking.activateEmergencyReserve(reserveAmount, reason);
+      await medairStaking.activateEmergencyReserve(EMERGENCY_RESERVE_AMOUNT, reason);
       
       const poolStatus = await medairStaking.getLiquidityPoolStatus();
-      expect(poolStatus.emergencyReserve).to.equal(reserveAmount);
+      expect(poolStatus.emergencyReserve).to.equal(EMERGENCY_RESERVE_AMOUNT);
     });
   });
 

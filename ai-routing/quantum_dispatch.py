@@ -324,10 +324,12 @@ class QuantumDispatchEngine:
         high_urgency_count = sum(1 for u in urgency_values if u >= 7)
         
         # Calculate network health score (0-100)
+        # Protect against division by zero
+        urgency_ratio = (1 - high_urgency_count / len(urgency_values)) if urgency_values else 0
         network_health = min(100, max(0, 
             (avg_coherence * 50) +  # 50% weight on coherence
             (coherence_stability * 30) +  # 30% weight on stability
-            ((1 - high_urgency_count / len(urgency_values)) * 20)  # 20% weight on urgency management
+            (urgency_ratio * 20)  # 20% weight on urgency management
         ))
         
         # Self-healing status

@@ -321,7 +321,7 @@ contract MedAirStaking is Ownable, ReentrancyGuard, Pausable {
      * @dev Update coherence with dynamic bonus payout
      * Enhanced to trigger dynamic payouts when threshold is met
      */
-    function updateCoherenceWithBonus(address user, uint256 coherenceScore) external {
+    function updateCoherenceWithBonus(address user, uint256 coherenceScore) external nonReentrant {
         require(authorizedVerifiers[msg.sender] || msg.sender == owner(), "Unauthorized");
         require(coherenceScore <= 100, "Invalid coherence score");
         require(stakes[user].amount > 0, "No stake found");
