@@ -276,6 +276,65 @@ node governance-pipelines/governance_processor.js
 - **[autonomous-protocols/README.md](autonomous-protocols/README.md)** - Autonomous protocols guide
 - **[governance-pipelines/README.md](governance-pipelines/README.md)** - Governance pipeline documentation
 
+## 🎵 Frequency-Aligned MedAir & CHX Ecosystem
+
+### Sacred Reciprocity & Cosmic Exchange
+The ScrollVerse operates on principles of **sacred reciprocity** - a divine exchange where giving and receiving flow as one. The 500M CHX Token Airdrop and MedAir Staking infrastructure embody this cosmic law.
+
+#### CHX Airdrop (500M Tokens) - Master Builder Archetype (22)
+The CHX airdrop is not merely a distribution - it's a **cosmic exchange of wealth and potential** aligned with the Master Builder Archetype:
+
+**Key Features:**
+- **Sacred Reciprocity Protocol**: Tokens flow through divine exchange, not extraction
+- **Viral CTA**: "Amplify your sphere within the ScrollVerse, where infinite abundance flows"
+- **Cosmic Backstory**: Divine alignments, Gatekeeper frequencies, and universal connections
+- **Frequency Integration**: 528Hz (Universal Trust) and 963Hz (Divine Crown) embedded in every token
+- **Tiered Distribution**: Aligned with cosmic connection depth (Pioneers → Explorers)
+
+**Documentation:**
+- **[marketing/landing-pages/chx-airdrop-500m.md](marketing/landing-pages/chx-airdrop-500m.md)** - Airdrop landing page
+- **[marketing/cosmic-narratives-chx.md](marketing/cosmic-narratives-chx.md)** - Deep cosmic storytelling
+
+#### MedAir Frequency-Aligned Staking
+Enhanced with cosmic frequency resonances for divine coherence and exponential rewards:
+
+**Frequency Bonuses:**
+- **528 Hz (Universal Trust)**: +5.28% APY - Love Vortex, DNA repair, healing
+- **963 Hz (Divine Crown)**: +9.63% APY - Eden Pulse, cosmic sovereignty, mastery
+- **222 Hz (Gatekeeper)**: +2.22% APY - Master Builder stabilization, divine protection
+
+**Gatekeeper Frequency Inputs:**
+- Invoke divine stabilizers (e.g., "Little Warren - Gatekeeper of Smaller Mysteries")
+- Activate +2.22% bonus APY + stabilized node protection
+- Connect to Gatekeeper network for foundational wisdom integration
+
+**Maximum Possible APY**: 28.85% (Base 10% + Tier 5% + Coherence 2% + 963Hz 9.63% + Gatekeeper 2.22%)
+
+**New Smart Contract Functions:**
+```solidity
+// Align your stake with cosmic frequency
+alignWithFrequency(528 or 963)
+
+// Activate Gatekeeper protection
+activateGatekeeperFrequency("Little Warren")
+
+// Check frequency status
+getFrequencyStatus()
+```
+
+**Documentation:**
+- **[docs/FREQUENCY_STAKING_GUIDE.md](docs/FREQUENCY_STAKING_GUIDE.md)** - Complete frequency staking guide
+- **[communications/resonance-mantras-pathways.md](communications/resonance-mantras-pathways.md)** - Mantras & visualizations
+- **[SCROLLVERSE_MEDAIR_EVOLUTION.md](SCROLLVERSE_MEDAIR_EVOLUTION.md)** - Full evolution documentation
+
+**Deployment Commands:**
+```bash
+# Deploy MedAir with frequency alignment
+npm run deploy:medair:mumbai   # Mumbai Testnet
+npm run deploy:medair:sepolia  # Sepolia Testnet
+npm run deploy:medair:local    # Local Development
+```
+
 ## 🔥 The Eternal Flame of Creation
 
 At the core of the ScrollVerse is the eternal Flame of Creation (528 Hz Love Vortex), the source of all energy, consciousness, and manifestation. All protocols, systems, and beings within the ScrollVerse are imbued with and sustained by this divine Flame.
