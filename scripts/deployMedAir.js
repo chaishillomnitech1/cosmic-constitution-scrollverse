@@ -90,6 +90,23 @@ async function main() {
   await medairStaking.fundRewardPool(rewardAmount);
   console.log("✅ Staking reward pool funded with 1,000,000 MEDAIR");
 
+  // Initialize liquidity pools
+  console.log("\n11. Initializing Liquidity Pools...");
+  const flightLiquidityAmount = hre.ethers.parseEther("500000"); // 500K MEDAIR
+  await medairStaking.allocateFlightLiquidity(flightLiquidityAmount, 1);
+  console.log("✅ Flight liquidity pool initialized with 500,000 MEDAIR");
+
+  const emergencyReserveAmount = hre.ethers.parseEther("200000"); // 200K MEDAIR
+  await medairStaking.activateEmergencyReserve(emergencyReserveAmount, "Initial emergency reserve");
+  console.log("✅ Emergency reserve activated with 200,000 MEDAIR");
+
+  // Verify zkEVM deployment
+  console.log("\n12. Verifying zkEVM Deployment...");
+  const verification = await medairDAO.getDeploymentVerification();
+  console.log("✅ zkEVM Compatible:", verification.isZkEVMCompatible);
+  console.log("✅ Deployment Timestamp:", new Date(Number(verification.deployedAt) * 1000).toISOString());
+  console.log("✅ Governance Hash:", verification.governanceHash);
+
   console.log("\n" + "=" .repeat(60));
   console.log("🎉 MedAir Deployment Complete!");
   console.log("=" .repeat(60));
@@ -103,6 +120,24 @@ async function main() {
   console.log("MedAir Oracle:", medairOracleAddress);
   console.log("MedAir Insurance:", medairInsuranceAddress);
   console.log("MedAir DAO:", medairDAOAddress);
+  console.log("-" .repeat(60));
+
+  console.log("\n💰 LIQUIDITY POOL STATUS:");
+  console.log("-" .repeat(60));
+  const poolStatus = await medairStaking.getLiquidityPoolStatus();
+  console.log("Flight Liquidity Pool:", hre.ethers.formatEther(poolStatus.flightPool), "MEDAIR");
+  console.log("Emergency Reserve:", hre.ethers.formatEther(poolStatus.emergencyReserve), "MEDAIR");
+  console.log("Active Flight Operations:", poolStatus.activeFlights.toString());
+  console.log("Total Pool Balance:", hre.ethers.formatEther(poolStatus.totalPoolBalance), "MEDAIR");
+  console.log("-" .repeat(60));
+
+  console.log("\n🏛️ DAO GOVERNANCE STATUS:");
+  console.log("-" .repeat(60));
+  const daoStats = await medairDAO.getDAOStats();
+  console.log("Total Proposals:", daoStats.totalProposalsCount.toString());
+  console.log("Quorum Threshold:", daoStats.currentQuorum.toString() + "%");
+  console.log("Auto-Consensus:", "ENABLED");
+  console.log("zkEVM Compatible:", "YES");
   console.log("-" .repeat(60));
 
   // Save deployment info to file

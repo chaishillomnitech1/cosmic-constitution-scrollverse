@@ -46,6 +46,11 @@ contract MedAirStaking is Ownable, ReentrancyGuard, Pausable {
     uint256 public totalStaked;
     uint256 public rewardPool;
     
+    // Liquidity pool tracking for flight operations
+    uint256 public flightLiquidityPool;
+    uint256 public emergencyReservePool;
+    uint256 public activeFlightOperations;
+    
     event Staked(address indexed user, uint256 amount, StakerTier tier);
     event Unstaked(address indexed user, uint256 amount);
     event RewardsClaimed(address indexed user, uint256 amount);
@@ -54,6 +59,8 @@ contract MedAirStaking is Ownable, ReentrancyGuard, Pausable {
     event VerifierAdded(address indexed verifier);
     event VerifierRemoved(address indexed verifier);
     event RewardPoolFunded(uint256 amount);
+    event FlightLiquidityAllocated(uint256 amount, uint256 flightId);
+    event EmergencyReserveActivated(uint256 amount, string reason);
     
     constructor(
         address _medairToken,
@@ -264,5 +271,75 @@ contract MedAirStaking is Ownable, ReentrancyGuard, Pausable {
      */
     function unpause() external onlyOwner {
         _unpause();
+    }
+    
+    /**
+     * @dev Allocate funds to flight liquidity pool
+     */
+    function allocateFlightLiquidity(uint256 amount, uint256 flightId) external onlyOwner {
+        require(amount > 0, "Invalid amount");
+        require(rewardPool >= amount, "Insufficient reward pool");
+        
+        rewardPool -= amount;
+        flightLiquidityPool += amount;
+        activeFlightOperations++;
+        
+        emit FlightLiquidityAllocated(amount, flightId);
+    }
+    
+    /**
+     * @dev Activate emergency reserve
+     */
+    function activateEmergencyReserve(uint256 amount, string memory reason) external onlyOwner {
+        require(amount > 0, "Invalid amount");
+        require(rewardPool >= amount, "Insufficient reward pool");
+        
+        rewardPool -= amount;
+        emergencyReservePool += amount;
+        
+        emit EmergencyReserveActivated(amount, reason);
+    }
+    
+    /**
+     * @dev Get liquidity pool status
+     */
+    function getLiquidityPoolStatus() external view returns (
+        uint256 flightPool,
+        uint256 emergencyReserve,
+        uint256 activeFlights,
+        uint256 totalPoolBalance
+    ) {
+        return (
+            flightLiquidityPool,
+            emergencyReservePool,
+            activeFlightOperations,
+            rewardPool
+        );
+    }
+    
+    /**
+     * @dev Update coherence with dynamic bonus payout
+     * Enhanced to trigger dynamic payouts when threshold is met
+     */
+    function updateCoherenceWithBonus(address user, uint256 coherenceScore) external nonReentrant {
+        require(authorizedVerifiers[msg.sender] || msg.sender == owner(), "Unauthorized");
+        require(coherenceScore <= 100, "Invalid coherence score");
+        require(stakes[user].amount > 0, "No stake found");
+        
+        uint256 previousScore = stakes[user].coherenceScore;
+        stakes[user].coherenceScore = coherenceScore;
+        
+        emit CoherenceUpdated(user, coherenceScore);
+        
+        // If coherence crosses threshold (95%), trigger bonus payout
+        if (previousScore < COHERENCE_THRESHOLD && coherenceScore >= COHERENCE_THRESHOLD) {
+            // Calculate instant bonus (1% of stake)
+            uint256 bonus = stakes[user].amount / 100;
+            if (bonus > 0 && rewardPool >= bonus) {
+                rewardPool -= bonus;
+                require(medairToken.transfer(user, bonus), "Bonus transfer failed");
+                emit RewardsClaimed(user, bonus);
+            }
+        }
     }
 }

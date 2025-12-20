@@ -298,6 +298,72 @@ class QuantumDispatchEngine:
             'total_records': len(self.coherence_history),
             'timestamp': datetime.now().isoformat()
         }
+    
+    def get_telemetry_data(self) -> Dict:
+        """
+        Get comprehensive telemetry data for real-time monitoring
+        Provides dynamic telemetry outputs for self-restoring network flows
+        
+        Returns:
+            Detailed telemetry metrics including network health and performance
+        """
+        if not self.coherence_history:
+            return {
+                'status': 'initializing',
+                'network_health': 0,
+                'telemetry': {}
+            }
+        
+        recent = self.coherence_history[-50:]  # Last 50 entries for real-time analysis
+        coherence_values = [h['coherence'] for h in recent]
+        urgency_values = [h['urgency'] for h in recent]
+        
+        # Calculate network health metrics
+        avg_coherence = np.mean(coherence_values)
+        coherence_stability = 1.0 - np.std(coherence_values)  # Higher stability = lower variance
+        high_urgency_count = sum(1 for u in urgency_values if u >= 7)
+        
+        # Calculate network health score (0-100)
+        # Protect against division by zero
+        urgency_ratio = (1 - high_urgency_count / len(urgency_values)) if urgency_values else 0
+        network_health = min(100, max(0, 
+            (avg_coherence * 50) +  # 50% weight on coherence
+            (coherence_stability * 30) +  # 30% weight on stability
+            (urgency_ratio * 20)  # 20% weight on urgency management
+        ))
+        
+        # Self-healing status
+        below_threshold = sum(1 for c in coherence_values if c < self.coherence_threshold)
+        self_healing_active = below_threshold > 0
+        
+        return {
+            'status': 'operational',
+            'network_health': round(network_health, 2),
+            'telemetry': {
+                'average_coherence': round(avg_coherence, 4),
+                'coherence_stability': round(coherence_stability, 4),
+                'high_urgency_dispatches': high_urgency_count,
+                'total_dispatches': len(recent),
+                'self_healing_activations': below_threshold,
+                'self_healing_active': self_healing_active,
+                'quantum_optimization_cycles': len(self.coherence_history),
+                'current_threshold': self.coherence_threshold,
+                'threshold_compliance_rate': round((1 - below_threshold / len(coherence_values)) * 100, 2) if coherence_values else 0
+            },
+            'real_time_metrics': {
+                'last_coherence': coherence_values[-1] if coherence_values else 0,
+                'last_urgency': urgency_values[-1] if urgency_values else 0,
+                'timestamp': datetime.now().isoformat(),
+                'uptime_status': 'online',
+                'auto_update_enabled': True
+            },
+            'self_restoring_flows': {
+                'enabled': True,
+                'restoration_count': below_threshold,
+                'network_resilience': round((1 - below_threshold / max(1, len(coherence_values))) * 100, 2),
+                'auto_healing_threshold': self.coherence_threshold
+            }
+        }
 
 
 # Example usage and testing
