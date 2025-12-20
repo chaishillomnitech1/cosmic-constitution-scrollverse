@@ -1,0 +1,601 @@
+.sovereignty-dashboard {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #1a0033 0%, #2d1b4e 50%, #1a0033 100%);
+  min-height: 100vh;
+  color: #fff;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 2px solid #9d4edd;
+  box-shadow: 0 0 30px rgba(157, 78, 221, 0.3);
+}
+
+.dashboard-header h1 {
+  font-size: 3rem;
+  margin: 0;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.dashboard-header .subtitle {
+  font-size: 1.2rem;
+  color: #c77dff;
+  margin: 0.5rem 0;
+}
+
+.dashboard-header .address {
+  font-size: 0.9rem;
+  color: #9d4edd;
+  margin-top: 1rem;
+  font-family: 'Courier New', monospace;
+}
+
+.dashboard-message {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.dashboard-message h2 {
+  font-size: 2.5rem;
+  color: #ffd700;
+  margin-bottom: 1rem;
+}
+
+.wallet-gating-message {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: rgba(157, 78, 221, 0.1);
+  border-radius: 10px;
+  border: 1px solid #9d4edd;
+}
+
+.wallet-gating-message p {
+  margin: 0.5rem 0;
+  color: #c77dff;
+  font-size: 1.1rem;
+}
+
+/* Live Metrics */
+.live-metrics {
+  margin-bottom: 3rem;
+}
+
+.live-metrics h2 {
+  font-size: 2rem;
+  color: #ffd700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.2) 0%, rgba(199, 125, 255, 0.1) 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #9d4edd;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(157, 78, 221, 0.2);
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(157, 78, 221, 0.4);
+  border-color: #c77dff;
+}
+
+.metric-card h3 {
+  font-size: 1rem;
+  color: #c77dff;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.metric-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffd700;
+  margin: 0.5rem 0;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  color: #9d4edd;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+/* Crowning Ceremony */
+.crowning-ceremony {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(255, 215, 0, 0.05);
+  border-radius: 15px;
+  border: 2px solid #ffd700;
+}
+
+.crowning-ceremony h2 {
+  font-size: 2rem;
+  color: #ffd700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.ceremony-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: rgba(157, 78, 221, 0.2);
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #9d4edd;
+}
+
+.stat-card h3 {
+  font-size: 0.9rem;
+  color: #c77dff;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffd700;
+  margin: 0;
+}
+
+.auto-trigger-notice {
+  background: linear-gradient(135deg, rgba(0, 255, 127, 0.2) 0%, rgba(0, 255, 127, 0.1) 100%);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid #00ff7f;
+  text-align: center;
+  animation: pulse 2s infinite;
+}
+
+.auto-trigger-notice p {
+  margin: 0;
+  color: #00ff7f;
+  font-weight: bold;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 255, 127, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 127, 0.6);
+  }
+}
+
+/* Akashic Expansion */
+.akashic-expansion {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(138, 43, 226, 0.1);
+  border-radius: 15px;
+  border: 2px solid #8a2be2;
+}
+
+.akashic-expansion h2 {
+  font-size: 2rem;
+  color: #c77dff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.expansion-status {
+  text-align: center;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.status-light {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+
+.status-light.active {
+  background: #00ff7f;
+  box-shadow: 0 0 15px #00ff7f;
+}
+
+.status-light.inactive {
+  background: #666;
+  animation: none;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.status-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #00ff7f;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.expansion-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.expansion-metric {
+  background: rgba(157, 78, 221, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #9d4edd;
+}
+
+.expansion-metric h4 {
+  font-size: 0.85rem;
+  color: #c77dff;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+}
+
+.expansion-metric p {
+  font-size: 1.5rem;
+  color: #ffd700;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* IPFS Metadata */
+.ipfs-metadata {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background: rgba(72, 219, 251, 0.1);
+  border-radius: 12px;
+  border: 2px solid #48dbfb;
+  text-align: center;
+}
+
+.ipfs-metadata h2 {
+  font-size: 1.5rem;
+  color: #48dbfb;
+  margin-bottom: 1rem;
+}
+
+.ipfs-metadata p {
+  color: #c77dff;
+  margin-bottom: 1rem;
+}
+
+.ipfs-status {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.ipfs-indicator {
+  padding: 0.5rem 1rem;
+  background: rgba(72, 219, 251, 0.2);
+  border-radius: 6px;
+  border: 1px solid #48dbfb;
+  font-size: 0.9rem;
+  color: #48dbfb;
+}
+
+/* Crowns Section */
+.crowns-section {
+  margin-bottom: 3rem;
+}
+
+.crowns-section h2 {
+  font-size: 2rem;
+  color: #ffd700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.crowns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.crown-card {
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.2) 0%, rgba(199, 125, 255, 0.1) 100%);
+  border-radius: 12px;
+  border: 2px solid #9d4edd;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(157, 78, 221, 0.2);
+}
+
+.crown-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(157, 78, 221, 0.4);
+  border-color: #ffd700;
+}
+
+.crown-card.loading {
+  padding: 2rem;
+  text-align: center;
+  color: #9d4edd;
+}
+
+.crown-header {
+  padding: 1rem;
+  background: rgba(157, 78, 221, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.crown-id {
+  font-weight: bold;
+  color: #ffd700;
+  font-size: 1.1rem;
+}
+
+.crown-type {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.crown-type.type-0 {
+  background: #ff6b9d;
+  color: #fff;
+}
+
+.crown-type.type-1 {
+  background: #c77dff;
+  color: #fff;
+}
+
+.crown-type.type-2 {
+  background: #48dbfb;
+  color: #000;
+}
+
+.crown-type.type-3 {
+  background: #ffd700;
+  color: #000;
+}
+
+.crown-type.type-4 {
+  background: #9d4edd;
+  color: #fff;
+}
+
+.crown-details {
+  padding: 1.5rem;
+}
+
+.crown-details h3 {
+  font-size: 1.2rem;
+  color: #ffd700;
+  margin: 0 0 0.5rem 0;
+}
+
+.crown-description {
+  color: #c77dff;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.crown-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.badge.coherence-0 {
+  background: rgba(128, 128, 128, 0.3);
+  color: #999;
+}
+
+.badge.coherence-1 {
+  background: rgba(72, 219, 251, 0.3);
+  color: #48dbfb;
+}
+
+.badge.coherence-2 {
+  background: rgba(157, 78, 221, 0.3);
+  color: #c77dff;
+}
+
+.badge.coherence-3 {
+  background: rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+}
+
+.badge.coherence-4 {
+  background: linear-gradient(135deg, #ffd700 0%, #ff6b9d 100%);
+  color: #fff;
+  animation: glow 2s infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  }
+}
+
+.badge.frequency {
+  background: rgba(0, 255, 127, 0.2);
+  color: #00ff7f;
+  border: 1px solid #00ff7f;
+}
+
+.badge.upgraded {
+  background: linear-gradient(135deg, #9d4edd 0%, #c77dff 100%);
+  color: #fff;
+}
+
+.harlem-tribute {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 6px;
+  border: 1px solid #ffd700;
+}
+
+.harlem-tribute p {
+  margin: 0;
+  color: #ffd700;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.empty-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  background: rgba(157, 78, 221, 0.1);
+  border-radius: 12px;
+  border: 2px dashed #9d4edd;
+}
+
+.empty-message p {
+  color: #c77dff;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+/* Ritual Actions */
+.ritual-actions {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(255, 107, 157, 0.1);
+  border-radius: 15px;
+  border: 2px solid #ff6b9d;
+}
+
+.ritual-actions h2 {
+  font-size: 2rem;
+  color: #ff6b9d;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.ritual-button {
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #9d4edd 0%, #c77dff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(157, 78, 221, 0.3);
+}
+
+.ritual-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(157, 78, 221, 0.5);
+  background: linear-gradient(135deg, #c77dff 0%, #9d4edd 100%);
+}
+
+.ritual-button:active {
+  transform: translateY(0);
+}
+
+/* Solstice Notice */
+.solstice-notice {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 215, 0, 0.1) 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid #ffd700;
+  text-align: center;
+}
+
+.solstice-notice h3 {
+  font-size: 1.5rem;
+  color: #ffd700;
+  margin: 0 0 1rem 0;
+}
+
+.solstice-notice p {
+  color: #c77dff;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sovereignty-dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .metrics-grid,
+  .ceremony-stats,
+  .expansion-metrics,
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .crowns-grid {
+    grid-template-columns: 1fr;
+  }
+}

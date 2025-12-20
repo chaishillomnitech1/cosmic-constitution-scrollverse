@@ -19,6 +19,8 @@ export const CONTRACTS = {
   ScrollVerseNFT: process.env.REACT_APP_NFT_CONTRACT_ADDRESS || '',
   ScrollVerseMultiToken: process.env.REACT_APP_MULTI_TOKEN_CONTRACT_ADDRESS || '',
   ScrollVerseDAO: process.env.REACT_APP_DAO_CONTRACT_ADDRESS || '',
+  QueensSovereignty: process.env.REACT_APP_QUEENS_SOVEREIGNTY_CONTRACT_ADDRESS || '',
+  MedAirOracle: process.env.REACT_APP_MEDAIR_ORACLE_CONTRACT_ADDRESS || '',
 };
 
 // Network configuration

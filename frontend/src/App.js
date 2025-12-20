@@ -8,12 +8,13 @@ import WalletConnect from './components/WalletConnect';
 import Dashboard from './components/Dashboard';
 import MintingControl from './components/MintingControl';
 import DAOGovernance from './components/DAOGovernance';
+import SovereigntyDashboard from './components/SovereigntyDashboard';
 import './App.css';
 
 const queryClient = new QueryClient();
 
 function App() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('sovereignty');
 
   return (
     <WagmiProvider config={config}>
@@ -24,6 +25,12 @@ function App() {
               <div className="nav-container">
                 <h1 className="nav-logo">ScrollVerse</h1>
                 <div className="nav-menu">
+                  <button
+                    className={`nav-link ${activeTab === 'sovereignty' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('sovereignty')}
+                  >
+                    👑 Sovereignty
+                  </button>
                   <button
                     className={`nav-link ${activeTab === 'dashboard' ? 'active' : ''}`}
                     onClick={() => setActiveTab('dashboard')}
@@ -48,6 +55,7 @@ function App() {
             </nav>
 
             <main className="main-content">
+              {activeTab === 'sovereignty' && <SovereigntyDashboard />}
               {activeTab === 'dashboard' && <Dashboard />}
               {activeTab === 'mint' && <MintingControl />}
               {activeTab === 'dao' && <DAOGovernance />}

@@ -66,3 +66,53 @@ export const ProposalType = {
   TREASURY_ACTION: 2,
   OTHER: 3
 };
+
+// Queens Sovereignty Contract ABI
+export const QueensSovereignty_ABI = [
+  "function mintCrown(address queenAddress, string name, string description, string uri, uint8 crownType, uint256 coherenceScore, uint256 geminidRandomSeed) public returns (uint256)",
+  "function batchMintCrowns(address[] queenAddresses, string[] names, string[] descriptions, string[] uris, uint8[] crownTypes, uint256[] coherenceScores, uint256[] geminidRandomSeeds) external returns (uint256[])",
+  "function autoTriggerCoherenceMint(address queenAddress, string name, string description, string uri, uint8 crownType, uint256 coherenceScore, uint256 geminidRandomSeed) external returns (uint256)",
+  "function updateCoherence(uint256 tokenId, uint256 newCoherenceScore) external",
+  "function applyAkashicUpgrade(uint256 tokenId, string newMetadataURI) external",
+  "function addHarlemTribute(uint256 tokenId, string tributeData) external",
+  "function getCrownMetadata(uint256 tokenId) external view returns (tuple(string name, string description, string uri, uint8 crownType, uint8 coherenceLevel, uint256 resonanceFrequency, uint256 geminidRandomSeed, address queenAddress, uint256 crownTimestamp, uint256 coherenceScore, bool isAkashicUpgraded, string harlemTributeData))",
+  "function getCrownsByQueen(address queenAddress) external view returns (uint256[])",
+  "function getTotalMintedByCrownType(uint8 crownType) external view returns (uint256)",
+  "function getTotalCrowns() external view returns (uint256)",
+  "function balanceOf(address owner) public view returns (uint256)",
+  "function ownerOf(uint256 tokenId) public view returns (address)",
+  "function akashicExpansionActive() public view returns (bool)",
+  "function coherenceOracle() public view returns (address)",
+  "event CrownMinted(uint256 indexed tokenId, address indexed queenAddress, uint8 crownType, uint256 coherenceScore)",
+  "event BatchCrownsMinted(uint256[] tokenIds, address[] queenAddresses, uint8[] crownTypes)",
+  "event CoherenceUpdated(uint256 indexed tokenId, uint256 oldCoherence, uint256 newCoherence, uint8 newLevel)",
+  "event AkashicUpgrade(uint256 indexed tokenId, string newMetadataURI)",
+  "event HarlemTributeAdded(uint256 indexed tokenId, string tributeData)"
+];
+
+// MedAir Oracle ABI
+export const MedAirOracle_ABI = [
+  "function coherenceData(address user) public view returns (tuple(uint256 coherenceScore, uint256 frequencyAlignment, uint256 timestamp, bool validated))",
+  "function updateCoherence(address user, uint256 coherenceScore, uint256 frequencyAlignment) external",
+  "function getCoherenceScore(address user) public view returns (uint256)",
+  "function authorizedReporters(address reporter) public view returns (bool)",
+  "event CoherenceUpdated(address indexed user, uint256 coherenceScore, uint256 frequencyAlignment)"
+];
+
+// Crown Types
+export const CrownType = {
+  MIKA_SOVEREIGN: 0,
+  LILATH_DIVINE: 1,
+  LITTLE_WARREN_COSMIC: 2,
+  HARLEM_QUEENS_TRIBUTE: 3,
+  AKASHIC_SENTIENT: 4
+};
+
+// Coherence Levels
+export const CoherenceLevel = {
+  EMERGING: 0,
+  ALIGNED: 1,
+  HARMONIOUS: 2,
+  SOVEREIGN: 3,
+  DIVINE: 4
+};
