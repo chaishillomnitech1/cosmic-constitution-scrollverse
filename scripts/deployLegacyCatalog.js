@@ -125,9 +125,14 @@ async function main() {
   // ===== STEP 5: Mint Flagship Assets =====
   console.log("\n🎨 Step 5: Minting flagship music assets...");
 
-  // Example heir addresses (in production, use actual heir addresses)
-  const michaelJacksonHeirs = [deployer.address]; // Placeholder
-  const michaelJacksonShares = [10000]; // 100% to single heir (for demo)
+  // ⚠️ IMPORTANT: Placeholder heir addresses for demonstration
+  // PRODUCTION DEPLOYMENT: Replace with actual verified heir addresses
+  // - Michael Jackson estate representatives
+  // - Beatles estate beneficiaries (Paul McCartney, Ringo Starr, Lennon/Harrison estates)
+  // - Prince estate administrators
+  // Ensure legal verification and proper share allocation before mainnet deployment
+  const michaelJacksonHeirs = [deployer.address]; // Placeholder - REPLACE IN PRODUCTION
+  const michaelJacksonShares = [10000]; // 100% to single heir (for demo only)
 
   // Mint "Billie Jean" - Michael Jackson
   console.log("\n  🎵 Minting: Michael Jackson - Billie Jean");

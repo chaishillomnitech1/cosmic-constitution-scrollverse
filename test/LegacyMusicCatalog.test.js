@@ -5,6 +5,11 @@ describe("Legacy Music Catalog System", function () {
   let legacyCoin, catalog;
   let owner, addr1, addr2, heir1, heir2;
   
+  // Initial supply: 1 billion tokens
+  // Rationale: Sufficient for global distribution while maintaining scarcity
+  // - Max supply is 10x this amount (10B), expandable with asset backing
+  // - Allows for fractional ownership of high-value catalog assets
+  // - Supports revenue stream participation at scale
   const INITIAL_SUPPLY = ethers.parseUnits("1000000000", 18); // 1 billion tokens
   
   beforeEach(async function () {
