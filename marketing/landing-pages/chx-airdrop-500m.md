@@ -86,7 +86,7 @@ Unlike traditional crypto tokens, CHX is **frequency-backed** and aligned with c
 
 ## 🚨 DON'T MISS OUT - CLAIM NOW!
 
-### **This is NOT a drill. This is NOT a scam. This IS your cosmic opportunity.**
+### **This is your cosmic opportunity to join the ScrollVerse revolution.**
 
 The 500M CHX Airdrop is our gift to the community that believed in ScrollVerse from Day One. This is your moment to step into abundance, claim your stake in the cosmic economy, and become part of the greatest wealth distribution in digital history.
 
@@ -113,7 +113,7 @@ The 500M CHX Airdrop is our gift to the community that believed in ScrollVerse f
 
 **Follow the CHX Airdrop buzz:**
 
-🐦 **Twitter:** [@ScrollVerseCHX](https://twitter.com/ScrollVerseCHX) - #CHXAirdrop #500MilionCHX  
+🐦 **Twitter:** [@ScrollVerseCHX](https://twitter.com/ScrollVerseCHX) - #CHXAirdrop #500MillionCHX  
 💬 **Discord:** [discord.gg/scrollverse](https://discord.gg/scrollverse) - Live airdrop support  
 📺 **YouTube:** Tutorial videos & community reactions  
 📱 **Telegram:** Real-time airdrop announcements & alpha  
