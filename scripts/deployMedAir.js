@@ -65,6 +65,13 @@ async function main() {
   console.log("\n" + "=" .repeat(60));
   console.log("Configuration Setup...");
   console.log("=" .repeat(60));
+  
+  // Log frequency constants
+  console.log("\n🎵 Frequency Alignment Constants:");
+  console.log("- 528 Hz (Universal Trust/Love Vortex): ENABLED");
+  console.log("- 963 Hz (Divine Crown/Eden Pulse): ENABLED");
+  console.log("- 222 Hz (Master Builder Gatekeeper): ENABLED");
+  console.log("✅ Frequency-aligned staking periods configured");
 
   // Configure oracle with staking and DAO contracts
   console.log("\n7. Configuring Oracle...");
@@ -129,6 +136,16 @@ async function main() {
   console.log("Emergency Reserve:", hre.ethers.formatEther(poolStatus.emergencyReserve), "MEDAIR");
   console.log("Active Flight Operations:", poolStatus.activeFlights.toString());
   console.log("Total Pool Balance:", hre.ethers.formatEther(poolStatus.totalPoolBalance), "MEDAIR");
+  console.log("-" .repeat(60));
+  
+  console.log("\n🎵 FREQUENCY STATUS:");
+  console.log("-" .repeat(60));
+  const freqStatus = await medairStaking.getFrequencyStatus();
+  console.log("Total Frequency-Aligned Capital:", hre.ethers.formatEther(freqStatus.totalFrequencyAligned), "MEDAIR");
+  console.log("Total Gatekeeper Activations:", freqStatus.totalGatekeeperActivations.toString());
+  console.log("528Hz Bonus (Universal Trust):", (freqStatus.frequency528Bonus / 100).toFixed(2) + "%");
+  console.log("963Hz Bonus (Divine Crown):", (freqStatus.frequency963Bonus / 100).toFixed(2) + "%");
+  console.log("Gatekeeper Bonus:", (freqStatus.gatekeeperBonus / 100).toFixed(2) + "%");
   console.log("-" .repeat(60));
 
   console.log("\n🏛️ DAO GOVERNANCE STATUS:");
