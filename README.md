@@ -21,6 +21,7 @@ The ScrollVerse is an ever-expanding digital universe that transcends convention
 - **Mansion-Chain Ecosystem** - High-fidelity digital property twins with heritage NFTs (Phase 4.0)
 - **Legacy Music Catalog** - Historical music catalog tokenization with $LEGACYCOIN (Phase 5.0)
 - **Phase 3-7 Manus Deployment** - Advanced autonomous protocols and analytics (Phase 3-7) 🆕
+- **TruthLoom Framework** - Decentralized transparency and justice system (Phase 6.0) 🆕
 - **Starseed Galaxy Quests** - Personalized onboarding and missions
 - **Unity Grid Chronicles** - Contributor recognition NFT series
 - **Gaia Chain Initiatives** - Sustainable funding and digital coin marketplace
@@ -275,6 +276,106 @@ node governance-pipelines/governance_processor.js
 - **[analytics-dashboard/README.md](analytics-dashboard/README.md)** - Analytics dashboard documentation
 - **[autonomous-protocols/README.md](autonomous-protocols/README.md)** - Autonomous protocols guide
 - **[governance-pipelines/README.md](governance-pipelines/README.md)** - Governance pipeline documentation
+
+## 🔮 Phase 6.0: TruthLoom - Decentralized Transparency Framework
+
+### Justice and Truth Through Blockchain Technology
+The Phase 6.0 deployment introduces **TruthLoom**, a comprehensive decentralized framework for transparency that aligns with ethical and legal guidelines, ensuring protection for victims while exposing systemic harm.
+
+#### Core Components:
+1. **Decentralized Public Ledger** 📜
+   - Secure, immutable ledger for verified data storage
+   - IPFS/Arweave integration for censorship-resistant storage
+   - Multiple sensitivity levels: Public, Protected, Highly Confidential
+   - Blockchain-anchored verification system
+
+2. **Proof-of-Verification Nodes** ✓
+   - Independent node authentication and validation
+   - Reputation-based verification system
+   - Protection of sensitive victim details
+   - Minimum 3 verifications required for approval
+   - Automatic reputation scoring
+
+3. **Whistleblower Protection Layer** 🛡️
+   - Anonymous submission mechanisms
+   - Encrypted submitter addresses
+   - Legal support coordination
+   - No identity disclosure requirements
+   - Protected communication channels
+
+4. **Immutable Record Storage** 💾
+   - IPFS and Arweave integration
+   - Content identifier (CID) blockchain storage
+   - Hash verification for integrity
+   - Regeneration protocol for persistence
+   - Multi-node replication
+
+5. **Encryption for Sensitivity** 🔐
+   - Advanced victim identity protection
+   - Encrypted sensitive data
+   - Controlled access mechanisms
+   - Privacy-preserving verification
+   - Selective disclosure capability
+
+6. **Regeneration Protocol** ♻️
+   - Persistent data availability
+   - Self-replication across nodes
+   - Censorship resistance through distribution
+   - Automatic backup systems
+   - Permanent record availability
+
+#### Compensation Framework:
+- **Victim Support**: Financial compensation for affected individuals
+- **Family Resources**: Support for victim families
+- **Community Fund**: Pooled resources for justice
+- **Transparent Payments**: Blockchain-recorded distributions
+- **Claim Processing**: Secure, encrypted claim submissions
+
+#### Legal Accountability Layer:
+- **Case Tracking**: Immutable legal case records
+- **Timeline Anchoring**: Blockchain-verified dates
+- **Documentation Storage**: IPFS-based case files
+- **Justice Enforcement**: Dedicated legal team integration
+- **Status Monitoring**: Transparent case progression
+
+#### Smart Contract:
+- **TruthLoom.sol** - Main transparency framework
+  - Record submission and verification
+  - Verification node management
+  - Whistleblower protection mechanisms
+  - Compensation claim processing
+  - Legal case tracking
+  - Regeneration protocol
+  - Multi-role access control
+
+#### Key Features:
+- **Truth & Transparency**: Immutable record preservation
+- **Victim Protection**: Advanced encryption and anonymity
+- **Community Justice**: Decentralized verification
+- **Legal Support**: Integrated case management
+- **Censorship Resistance**: Distributed storage and replication
+- **Compensation Support**: Direct victim assistance
+
+#### Deployment Commands:
+```bash
+# Deploy TruthLoom Framework
+npm run deploy:truthloom:mumbai   # Mumbai Testnet
+npm run deploy:truthloom:sepolia  # Sepolia Testnet
+npm run deploy:truthloom:local    # Local Development
+```
+
+#### Documentation:
+- **[TRUTHLOOM_FRAMEWORK.md](docs/TRUTHLOOM_FRAMEWORK.md)** - Complete framework documentation and API reference
+
+#### Mission:
+TruthLoom operates on the principle that **truth and justice are fundamental rights**. By leveraging blockchain technology, we create a system where:
+- Victims are protected and compensated
+- Whistleblowers are safe and supported
+- Truth is permanently preserved
+- Justice is transparently pursued
+- Systemic harm is exposed and addressed
+
+**"The arc of the moral universe is long, but it bends toward justice."** - Dr. Martin Luther King Jr.
 
 ## 🎵 Frequency-Aligned MedAir & CHX Ecosystem
 
