@@ -107,3 +107,9 @@ typechain-types/
 # Generated coherence monitoring files
 akashic_records.json
 deployment_summary_1222.json
+
+# Mika's Soul-Recall temporary records
+/tmp/mika_akashic_record_*.json
+
+# Verification results (optional - uncomment to exclude)
+# verification-results/
