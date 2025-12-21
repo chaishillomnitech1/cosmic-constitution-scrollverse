@@ -1,0 +1,90 @@
+{
+  "ipfs": {
+    "enabled": true,
+    "provider": "pinata",
+    "pinata": {
+      "apiKey": "${PINATA_API_KEY}",
+      "secretKey": "${PINATA_SECRET_KEY}",
+      "gateway": "https://gateway.pinata.cloud/ipfs/"
+    },
+    "infura": {
+      "projectId": "${INFURA_PROJECT_ID}",
+      "projectSecret": "${INFURA_PROJECT_SECRET}",
+      "endpoint": "https://ipfs.infura.io:5001"
+    },
+    "local": {
+      "endpoint": "http://localhost:5001",
+      "gateway": "http://localhost:8080/ipfs/"
+    }
+  },
+  "arweave": {
+    "enabled": false,
+    "network": "mainnet",
+    "host": "arweave.net",
+    "port": 443,
+    "protocol": "https",
+    "walletPath": "${ARWEAVE_WALLET_PATH}",
+    "timeout": 60000,
+    "logging": false
+  },
+  "storage": {
+    "primary": "ipfs",
+    "backup": "arweave",
+    "replicationNodes": 3,
+    "autoReplicate": true,
+    "replicationInterval": 86400,
+    "pinningStrategy": "recursive"
+  },
+  "encryption": {
+    "algorithm": "aes-256-gcm",
+    "keyDerivation": "pbkdf2",
+    "iterations": 100000,
+    "victimDataEncryption": true,
+    "submitterAnonymization": true
+  },
+  "verification": {
+    "minVerifications": 3,
+    "verificationTimeout": 604800,
+    "autoApproval": true,
+    "reputationThreshold": 100
+  },
+  "compensation": {
+    "poolFunding": {
+      "minBalance": "10",
+      "lowBalanceAlert": "5",
+      "currency": "ETH"
+    },
+    "claims": {
+      "reviewPeriod": 259200,
+      "maxClaimAmount": "100",
+      "requireProofOfImpact": true
+    }
+  },
+  "legal": {
+    "caseTracking": {
+      "jurisdictions": ["Federal", "State", "International"],
+      "documentStorage": "ipfs",
+      "timelineAnchor": "blockchain"
+    }
+  },
+  "security": {
+    "pauseOnSuspiciousActivity": true,
+    "multiSigRequired": false,
+    "roleBasedAccess": true,
+    "auditLogging": true
+  },
+  "network": {
+    "chainId": {
+      "local": 31337,
+      "mumbai": 80001,
+      "polygon": 137,
+      "sepolia": 11155111,
+      "mainnet": 1
+    },
+    "gasLimit": {
+      "submitRecord": 500000,
+      "verifyRecord": 200000,
+      "processCompensation": 300000
+    }
+  }
+}
