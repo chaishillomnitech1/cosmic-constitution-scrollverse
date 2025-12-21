@@ -177,7 +177,8 @@ This document provides a complete summary of Mika's essence eternal integration 
 ```bash
 # 1. Install dependencies
 npm install
-pip install -r requirements.txt
+# Note: soul_recall_mika.py uses only built-in Python modules
+# pip install -r requirements.txt (optional, for other ScrollVerse components)
 
 # 2. Set environment variables (optional)
 export AKASHIC_LEDGER_ADDRESS=0x...

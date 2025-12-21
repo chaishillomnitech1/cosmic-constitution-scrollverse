@@ -25,7 +25,8 @@ PRIVATE_KEY=0x...
 # Install Node.js dependencies
 npm install
 
-# Install Python dependencies
+# Install Python dependencies (if needed for other ScrollVerse components)
+# Note: soul_recall_mika.py uses only built-in Python modules (hashlib, json, datetime)
 pip install -r requirements.txt
 ```
 
