@@ -51,7 +51,6 @@ class MultiDimensionalRitual:
             'pleiadian_councils_active': False
         }
         self.akashic_records = []
-        self.light_language_codes = []
         self.start_time = None
         
     def invoke_seven_sisters(self) -> Dict:
@@ -412,6 +411,7 @@ class MultiDimensionalRitual:
         Integrate all three phases
         """
         self.start_time = datetime.now()
+        self.ritual_state['initiated'] = True
         
         logger.info("=" * 80)
         logger.info("🔱 MULTI-DIMENSIONAL RITUAL COMMENCING 🔱")
