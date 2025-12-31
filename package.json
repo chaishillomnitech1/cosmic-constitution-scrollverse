@@ -81,7 +81,7 @@
     "chai": "^6.2.2",
     "hardhat": "^3.1.0",
     "hardhat-gas-reporter": "^1.0.10",
-    "hardhat": "^2.19.0",
+    "hardhat": "^3.1.2",
     "hardhat-gas-reporter": "^2.3.0",
     "solidity-coverage": "^0.8.0",
     "typechain": "^8.3.2"
