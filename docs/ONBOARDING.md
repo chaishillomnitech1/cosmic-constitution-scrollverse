@@ -103,6 +103,7 @@ Before you begin, install:
 
 ```bash
 # Fork the repository on GitHub first, then:
+# Replace <your-username> with your actual GitHub username
 git clone https://github.com/<your-username>/cosmic-constitution-scrollverse.git
 cd cosmic-constitution-scrollverse
 

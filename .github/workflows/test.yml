@@ -270,7 +270,8 @@ jobs:
         run: |
           if [ "${{ needs.test-contracts.result }}" = "success" ] && \
              [ "${{ needs.test-python.result }}" = "success" ] && \
-             [ "${{ needs.test-integration.result }}" = "success" ]; then
+             [ "${{ needs.test-integration.result }}" = "success" ] && \
+             [ "${{ needs.test-frontend.result }}" = "success" ]; then
             echo "✅ All critical tests passed"
             exit 0
           else

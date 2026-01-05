@@ -97,7 +97,9 @@ jobs:
       
       - name: Build frontend
         if: steps.check-frontend.outputs.exists == 'true'
-        run: npm run frontend:build
+        run: |
+          cd frontend
+          npm run build
       
       - name: Verify frontend build
         if: steps.check-frontend.outputs.exists == 'true'

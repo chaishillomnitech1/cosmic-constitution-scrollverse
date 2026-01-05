@@ -25,7 +25,7 @@ assignees: 'chaishillomnitech1'
 ### User Stories
 <!-- Describe how users would interact with this feature -->
 - As a [type of user], I want [goal] so that [benefit]
-- As a [type of user], I want [goal] so that [benefit]
+- As a [different type of user], I want [another goal] so that [different benefit]
 
 ### Example Usage
 <!-- Show how this feature would be used -->
