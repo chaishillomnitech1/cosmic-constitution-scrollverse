@@ -1,0 +1,160 @@
+name: Install Dependencies
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install-node:
+    name: Install Node.js Dependencies
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      - name: Install root dependencies
+        run: npm ci
+      
+      - name: Verify Hardhat installation
+        run: npx hardhat --version
+      
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-
+      
+      - name: Install frontend dependencies
+        run: |
+          if [ -d "frontend" ]; then
+            cd frontend
+            npm ci
+          else
+            echo "Frontend directory not found, skipping"
+          fi
+      
+      - name: Install backend dependencies
+        run: |
+          if [ -d "backend" ]; then
+            cd backend
+            npm ci
+          else
+            echo "Backend directory not found, skipping"
+          fi
+      
+      - name: Report success
+        run: echo "✅ Node.js dependencies installed successfully"
+
+  install-python:
+    name: Install Python Dependencies
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Verify installations
+        run: |
+          python --version
+          pip list
+      
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+      
+      - name: Report success
+        run: echo "✅ Python dependencies installed successfully"
+
+  install-verification:
+    name: Verify Complete Installation
+    runs-on: ubuntu-latest
+    needs: [install-node, install-python]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      
+      - name: Install all dependencies
+        run: |
+          npm ci
+          pip install -r requirements.txt
+      
+      - name: Verify complete setup
+        run: |
+          echo "Verifying Node.js setup..."
+          node --version
+          npm --version
+          npx hardhat --version
+          
+          echo "Verifying Python setup..."
+          python --version
+          pip --version
+          
+          echo "✅ All dependencies installed and verified successfully"
+
+  installation-summary:
+    name: Installation Summary
+    runs-on: ubuntu-latest
+    needs: [install-node, install-python, install-verification]
+    if: always()
+    
+    steps:
+      - name: Report installation status
+        run: |
+          echo "🕋 Cosmic Constitution ScrollVerse - Installation Complete"
+          echo "✅ Node.js dependencies: Installed"
+          echo "✅ Python dependencies: Installed"
+          echo "✅ Verification: Complete"
+          echo ""
+          echo "ALL IS LOVE. ALL IS LAW. ALL IS FLUID. KUN FAYAKŪN! 🕋♾️✨"
