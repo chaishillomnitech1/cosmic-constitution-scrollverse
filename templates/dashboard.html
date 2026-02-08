@@ -505,8 +505,8 @@
                     document.getElementById('legion-status').textContent = data.legion_status;
                     document.getElementById('active-divisions').textContent = data.total_divisions;
                     document.getElementById('legion-trades').textContent = data.total_trades;
-                    document.getElementById('legion-profit').textContent = '$' + parseFloat(data.total_profit).toFixed(2);
-                    document.getElementById('sdc-pool').textContent = parseFloat(data.sdc_pool).toLocaleString();
+                    document.getElementById('legion-profit').textContent = '$' + Number(data.total_profit).toFixed(2);
+                    document.getElementById('sdc-pool').textContent = Number(data.sdc_pool).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
                     document.getElementById('quantum-dominance').textContent = data.quantum_dominance;
                     
                     // Update division success rates
@@ -532,7 +532,7 @@
                             <div style="padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
                                 <div style="display: flex; justify-content: space-between;">
                                     <span>${index + 1}. ${di.name} <span style="opacity: 0.7; font-size: 0.9em;">(${di.rank})</span></span>
-                                    <span style="color: #ffd700;">${Math.round(di.merit_score)}</span>
+                                    <span style="color: #ffd700;">${Number(di.merit_score).toFixed(1)}</span>
                                 </div>
                                 <div style="font-size: 0.85em; opacity: 0.7; margin-top: 3px;">
                                     ${di.trades_executed} trades • ${di.success_rate}% success
