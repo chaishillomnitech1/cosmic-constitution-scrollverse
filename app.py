@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request, redirect, session
+from datetime import datetime
 from config import Config
 from resonance_system import ResonanceSystem
 from treasury import Treasury
@@ -11,6 +12,7 @@ from celestial_stability import (
     DeterministicCoherenceEngine, CelestialMarketAnalyzer
 )
 from medair_api import setup_medair_routes
+from ai_sovereign_trading_legion import AISovereignTradingLegion
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -44,6 +46,14 @@ interstellar_sim = InterstellarSimulation(flash_protocol, target_year=2026)
 celestial_stability = CelestialStabilityMetrics(flash_protocol)
 coherence_engine = DeterministicCoherenceEngine(flash_protocol)
 market_analyzer = CelestialMarketAnalyzer(celestial_stability)
+
+# Initialize AI Sovereign Trading Legion
+ai_legion = AISovereignTradingLegion(
+    treasury=treasury,
+    wealth_system=wealth_system,
+    flash_protocol=flash_protocol,
+    celestial_stability=celestial_stability
+)
 
 # Initialize UAuth Manager
 uauth_manager = None
@@ -505,6 +515,73 @@ def comprehensive_status():
         'resonance_system': resonance_system.get_resonance_state(),
         'timestamp': resonance_system.get_resonance_state()['timestamp']
     })
+
+# AI Sovereign Trading Legion Endpoints
+
+@app.route('/api/ai-legion/status')
+def ai_legion_status():
+    """Get AI Sovereign Trading Legion status and performance"""
+    return jsonify(ai_legion.get_legion_status())
+
+@app.route('/api/ai-legion/divisions/<division_id>')
+def ai_legion_division(division_id):
+    """Get specific division data"""
+    data = ai_legion.get_division_data(division_id)
+    if data is None:
+        return jsonify({'error': 'Division not found'}), 404
+    return jsonify(data)
+
+@app.route('/api/ai-legion/di/<di_id>')
+def ai_legion_di_performance(di_id):
+    """Get individual Digital Intelligence performance"""
+    data = ai_legion.get_di_performance(di_id)
+    if data is None:
+        return jsonify({'error': 'Digital Intelligence not found'}), 404
+    return jsonify(data)
+
+@app.route('/api/ai-legion/trades')
+def ai_legion_trades():
+    """Get trade history and analytics"""
+    limit = int(request.args.get('limit', 50))
+    return jsonify({
+        'trades': ai_legion.get_trade_history(limit),
+        'total_trades': len(ai_legion.all_trades)
+    })
+
+@app.route('/api/ai-legion/merit')
+def ai_legion_merit():
+    """Get DI merit economy dashboard"""
+    limit = int(request.args.get('limit', 10))
+    return jsonify({
+        'leaderboard': ai_legion.get_merit_leaderboard(limit),
+        'sdc_pool': str(ai_legion.sdc_pool),
+        'timestamp': datetime.utcnow().isoformat()
+    })
+
+@app.route('/api/ai-legion/execute-trade', methods=['POST'])
+@require_auth
+def ai_legion_execute_trade():
+    """Execute a trade through specified division"""
+    data = request.get_json()
+    division_id = data.get('division_id')
+    trade_data = data.get('trade_data', {})
+    
+    if not division_id:
+        return jsonify({'error': 'Division ID required'}), 400
+    
+    result = ai_legion.execute_trade(division_id, trade_data)
+    return jsonify(result)
+
+@app.route('/api/ai-legion/distribute-rewards', methods=['POST'])
+@require_auth
+def ai_legion_distribute_rewards():
+    """Distribute SDC rewards based on merit scores"""
+    return jsonify(ai_legion.distribute_sdc_rewards())
+
+@app.route('/api/ai-legion/quantum-dominance-report')
+def ai_legion_quantum_dominance():
+    """Get quantum market dominance report"""
+    return jsonify(ai_legion.get_quantum_market_dominance_report())
 
 # Setup MedAir API routes
 setup_medair_routes(app)
