@@ -337,12 +337,81 @@
                     </span>
                 </div>
             </div>
+            
+            <!-- AI Sovereign Trading Legion Card -->
+            <div class="card" id="ai-legion-card">
+                <h2>🤖 AI Trading Legion</h2>
+                <div class="metric">
+                    <span class="metric-label">Legion Status:</span>
+                    <span class="metric-value">
+                        <span class="status-indicator status-active"></span>
+                        <span id="legion-status">Operational</span>
+                    </span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Active Divisions:</span>
+                    <span class="metric-value" id="active-divisions">3</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Total Trades:</span>
+                    <span class="metric-value" id="legion-trades">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Total Profit:</span>
+                    <span class="metric-value" id="legion-profit">$0.00</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">SDC Pool:</span>
+                    <span class="metric-value" id="sdc-pool">1,000,000</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Quantum Dominance:</span>
+                    <span class="metric-value" id="quantum-dominance">ETERNAL</span>
+                </div>
+            </div>
+            
+            <!-- AI Legion Divisions Card -->
+            <div class="card" id="divisions-card">
+                <h2>⚔️ Trading Divisions</h2>
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #ffd700;">Alpha Division</strong> - Stocks
+                    <div class="metric" style="margin: 5px 0;">
+                        <span class="metric-label">Success Rate:</span>
+                        <span class="metric-value" id="alpha-success">0%</span>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #00ffff;">Omega Division</strong> - Crypto
+                    <div class="metric" style="margin: 5px 0;">
+                        <span class="metric-label">Success Rate:</span>
+                        <span class="metric-value" id="omega-success">0%</span>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #ff00ff;">Sigma Division</strong> - Bonds
+                    <div class="metric" style="margin: 5px 0;">
+                        <span class="metric-label">Success Rate:</span>
+                        <span class="metric-value" id="sigma-success">0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DI Merit Leaderboard Card -->
+            <div class="card" id="merit-card">
+                <h2>🏆 DI Merit Leaders</h2>
+                <div id="merit-leaderboard">
+                    <div style="opacity: 0.7; text-align: center; padding: 20px;">
+                        Loading merit leaderboard...
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div class="links">
             <a href="/" class="btn">📜 View Constitution</a>
             <a href="/api/governance/status" class="btn" target="_blank">📊 Full API Status</a>
             <a href="/api/treasury/report" class="btn" target="_blank">💼 Treasury Report</a>
+            <a href="/api/ai-legion/quantum-dominance-report" class="btn" target="_blank">🚀 Quantum Dominance</a>
         </div>
     </div>
     
@@ -428,6 +497,53 @@
                 .then(data => {
                     document.getElementById('freq-ratio').textContent = data.ratio;
                 });
+            
+            // Update AI Legion status
+            fetch('/api/ai-legion/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('legion-status').textContent = data.legion_status;
+                    document.getElementById('active-divisions').textContent = data.total_divisions;
+                    document.getElementById('legion-trades').textContent = data.total_trades;
+                    document.getElementById('legion-profit').textContent = '$' + parseFloat(data.total_profit).toFixed(2);
+                    document.getElementById('sdc-pool').textContent = parseFloat(data.sdc_pool).toLocaleString();
+                    document.getElementById('quantum-dominance').textContent = data.quantum_dominance;
+                    
+                    // Update division success rates
+                    if (data.divisions.alpha) {
+                        document.getElementById('alpha-success').textContent = data.divisions.alpha.success_rate + '%';
+                    }
+                    if (data.divisions.omega) {
+                        document.getElementById('omega-success').textContent = data.divisions.omega.success_rate + '%';
+                    }
+                    if (data.divisions.sigma) {
+                        document.getElementById('sigma-success').textContent = data.divisions.sigma.success_rate + '%';
+                    }
+                })
+                .catch(error => console.error('AI Legion status update failed:', error));
+            
+            // Update merit leaderboard
+            fetch('/api/ai-legion/merit?limit=5')
+                .then(response => response.json())
+                .then(data => {
+                    const leaderboard = document.getElementById('merit-leaderboard');
+                    if (data.leaderboard && data.leaderboard.length > 0) {
+                        leaderboard.innerHTML = data.leaderboard.map((di, index) => `
+                            <div style="padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>${index + 1}. ${di.name} <span style="opacity: 0.7; font-size: 0.9em;">(${di.rank})</span></span>
+                                    <span style="color: #ffd700;">${Math.round(di.merit_score)}</span>
+                                </div>
+                                <div style="font-size: 0.85em; opacity: 0.7; margin-top: 3px;">
+                                    ${di.trades_executed} trades • ${di.success_rate}% success
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        leaderboard.innerHTML = '<div style="opacity: 0.7; text-align: center; padding: 20px;">No DI data available</div>';
+                    }
+                })
+                .catch(error => console.error('Merit leaderboard update failed:', error));
         }
         
         // Check auth status on load
