@@ -295,7 +295,7 @@ const DEPLOYMENT_STAGES = {
 };
 
 // Export all configurations
-module.exports = {
+export default {
   NFT_CONTRACTS,
   DAO_CONTRACTS,
   TOKEN_CONTRACTS,

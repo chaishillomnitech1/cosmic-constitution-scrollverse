@@ -1,7 +1,7 @@
-const hre = require("hardhat");
-const fs = require("fs");
-const path = require("path");
-const config = require("./nftDeploymentConfig");
+import hre from "hardhat";
+import fs from "fs";
+import path from "path";
+import config from "./nftDeploymentConfig.js";
 
 /**
  * Advanced NFT System Deployment with Staged Rollout

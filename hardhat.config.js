@@ -1,9 +1,8 @@
-require("@nomicfoundation/hardhat-ethers");
-require("@nomicfoundation/hardhat-verify");
-require("dotenv").config();
+import "@nomicfoundation/hardhat-toolbox";
+import "dotenv/config";
 
 /** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
+export default {
   solidity: {
     version: "0.8.20",
     settings: {
@@ -14,31 +13,25 @@ module.exports = {
     },
   },
   networks: {
-    hardhat: {
-      chainId: 1337,
-    },
-    localhost: {
-      url: "http://127.0.0.1:8545",
-    },
     sepolia: {
+      type: "http",
       url: process.env.SEPOLIA_RPC_URL || "",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 11155111,
-    },
-    mainnet: {
-      url: process.env.ETH_RPC_URL || "",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 1,
-    },
-    polygon: {
-      url: process.env.POLYGON_RPC_URL || "https://polygon-rpc.com",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 137,
     },
     mumbai: {
+      type: "http",
       url: process.env.ALCHEMY_MUMBAI_URL || "",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 80001,
+    },
+    polygon: {
+      type: "http",
+      url: process.env.POLYGON_RPC_URL || "https://polygon-rpc.com",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    },
+    mainnet: {
+      type: "http",
+      url: process.env.ETH_RPC_URL || "",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
   },
   etherscan: {
@@ -54,10 +47,5 @@ module.exports = {
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts",
-  },
-  gasReporter: {
-    enabled: process.env.REPORT_GAS === "true",
-    currency: "USD",
-    coinmarketcap: process.env.COINMARKETCAP_API_KEY,
   },
 };
