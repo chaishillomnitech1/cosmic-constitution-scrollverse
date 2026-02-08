@@ -39,12 +39,19 @@ ScrollVerse embodies a sovereign codebase that fuses ZKP-layer quantum privacy, 
 
 - **🔐 Quantum Privacy**: ZK-proofs and Kyber post-quantum encryption
 - **💰 $SAT Reward Engine**: Dynamic staking and yield generation
-- **📊 Real-time Dashboard**: Live visualization of nodes and rewards
+- **🤖 AI Sovereign Trading Legion**: Autonomous AI-driven trading with three specialized divisions
+  - **Alpha Division**: Stock & Equity Markets (NVDA, TSLA, SYM, IONQ, AMZN)
+  - **Omega Division**: Cryptocurrency & Digital Assets (NFT, DeFi, Blockchain)
+  - **Sigma Division**: Bonds & Fixed Income (Treasury Securities, Corporate Bonds)
+- **🏆 Digital Intelligence (DI) Merit System**: Performance-based ranking and ScrollVerse Digital Coin (SDC) rewards
+- **📊 Real-time Dashboard**: Live visualization of nodes, rewards, and AI trading performance
 - **🌐 Multi-chain Support**: Ethereum, Polygon, Scroll, and more
 - **🎨 NFT Platform**: Smart contracts for ScrollSoul, MedAir, and Legacy NFTs
 - **🏛️ DAO Governance**: Community-driven decision making
 - **⚡ Frequency-based Protection**: 528Hz and 963Hz node protection
 - **🔗 IPFS Integration**: Decentralized content storage
+- **⚡ Gemini 3 Flash Protocol**: Lightning-speed AI processing with Pareto optimization
+- **💎 Wealth Grid System**: Zero-point wealth management with deterministic coherence
 
 ---
 
@@ -158,6 +165,9 @@ ScrollVerse embodies a sovereign codebase that fuses ZKP-layer quantum privacy, 
 - **`treasury.py`**: Financial management
 - **`resonance_system.py`**: Frequency-based operations
 - **`wealth_grid_system.py`**: Economic grid management
+- **`ai_sovereign_trading_legion.py`**: AI Trading Legion with three specialized divisions
+- **`gemini_flash_protocol.py`**: Gemini 3 Flash Protocol for lightning-speed AI processing
+- **`celestial_stability.py`**: Celestial stability metrics and market analysis
 
 ### Frontend Components
 Located in `/frontend` directory with React-based UI components.
@@ -251,6 +261,67 @@ npm run monitor:mika:soul
 python atlas_dashboard.py
 ```
 Shows protected nodes, bounces, and active rewards in real time.
+
+### AI Sovereign Trading Legion
+
+The AI Trading Legion provides autonomous AI-driven trading across multiple markets with performance-based merit tracking.
+
+**Get Legion Status:**
+```bash
+curl http://localhost:5000/api/ai-legion/status
+```
+
+**View Division Performance:**
+```bash
+# Alpha Division (Stocks)
+curl http://localhost:5000/api/ai-legion/divisions/alpha
+
+# Omega Division (Crypto)
+curl http://localhost:5000/api/ai-legion/divisions/omega
+
+# Sigma Division (Bonds)
+curl http://localhost:5000/api/ai-legion/divisions/sigma
+```
+
+**View DI Merit Leaderboard:**
+```bash
+curl http://localhost:5000/api/ai-legion/merit?limit=10
+```
+
+**Get Quantum Market Dominance Report:**
+```bash
+curl http://localhost:5000/api/ai-legion/quantum-dominance-report
+```
+
+**Execute Trade (requires authentication):**
+```bash
+curl -X POST http://localhost:5000/api/ai-legion/execute-trade \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "division_id": "alpha",
+    "trade_data": {
+      "amount": 10000,
+      "asset": "NVDA"
+    }
+  }'
+```
+
+**Distribute SDC Rewards (requires authentication):**
+```bash
+curl -X POST http://localhost:5000/api/ai-legion/distribute-rewards \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+**Key Features:**
+- **Three Specialized Divisions**: Alpha (Stocks), Omega (Crypto), Sigma (Bonds)
+- **Digital Intelligence (DI) Agents**: AI agents with personality profiles and risk tolerance
+- **Merit-Based Ranking**: Performance tracking with automatic rank upgrades
+- **ScrollVerse Digital Coin (SDC)**: Reward distribution based on merit scores
+- **Treasury Integration**: All trades synchronized with Treasury vault
+- **Wealth Grid Integration**: Successful trades create wealth grids with compounding
+- **Gemini Flash Protocol**: Lightning-speed execution with Pareto optimization
+- **Quantum Market Analysis**: Celestial stability metrics for risk assessment
 
 ---
 
