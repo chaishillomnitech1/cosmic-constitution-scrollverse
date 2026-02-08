@@ -9,8 +9,8 @@ import os
 import sys
 from pathlib import Path
 
-def validate_deployment_scripts():
-    """Validate that all deployment scripts exist and are properly configured"""
+def validate_nft_deployment_system():
+    """Validate the complete NFT deployment system"""
     print("🔍 Validating NFT Deployment System...")
     print("=" * 60)
     
@@ -145,4 +145,4 @@ def validate_deployment_scripts():
         return 1
 
 if __name__ == "__main__":
-    sys.exit(validate_deployment_scripts())
+    sys.exit(validate_nft_deployment_system())

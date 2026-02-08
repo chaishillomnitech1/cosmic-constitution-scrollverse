@@ -145,7 +145,7 @@ class NFTDeploymentOrchestrator {
     let envConfig = "\n# NFT System Contract Addresses\n";
     
     for (const [contractName, deployment] of Object.entries(this.deployments)) {
-      const envVarName = contractName.toUpperCase().replace(/([A-Z])/g, '_$1').replace(/^_/, '');
+      const envVarName = contractName.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase();
       envConfig += `${envVarName}_ADDRESS=${deployment.address}\n`;
     }
     

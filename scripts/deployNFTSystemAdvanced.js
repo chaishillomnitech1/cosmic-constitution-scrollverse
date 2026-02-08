@@ -128,7 +128,7 @@ class AdvancedDeploymentOrchestrator {
       this.log(`Verification failed for ${contractName}`, "warning", { error: error.message });
       
       // Save verification command for manual execution
-      const verifyCmd = `npx hardhat verify --network ${this.network} ${address}`;
+      let verifyCmd = `npx hardhat verify --network ${this.network} ${address}`;
       if (constructorArgs.length > 0) {
         verifyCmd += ` ${constructorArgs.join(' ')}`;
       }
@@ -248,7 +248,7 @@ class AdvancedDeploymentOrchestrator {
     
     for (const [contractName, deployment] of Object.entries(this.deployments)) {
       if (deployment.address && !deployment.error) {
-        const envVarName = contractName.toUpperCase().replace(/([A-Z])/g, '_$1').replace(/^_/, '');
+        const envVarName = contractName.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase();
         envConfig += `${envVarName}_ADDRESS=${deployment.address}\n`;
       }
     }
