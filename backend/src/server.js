@@ -9,6 +9,8 @@ const logger = require('./utils/logger');
 // Import routes
 const nftRoutes = require('./routes/nft');
 const daoRoutes = require('./routes/dao');
+const githubRoutes = require('./routes/github');
+const chroniclesRoutes = require('./routes/chronicles');
 
 const app = express();
 
@@ -45,6 +47,8 @@ app.get('/health', (req, res) => {
 // API routes
 app.use('/api/nft', nftRoutes);
 app.use('/api/dao', daoRoutes);
+app.use('/api/github', githubRoutes);
+app.use('/api/chronicles', chroniclesRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -66,6 +70,24 @@ app.get('/', (req, res) => {
         getAllProposals: '/api/dao/proposals',
         createProposal: '/api/dao/proposals (POST)',
         getStats: '/api/dao/stats',
+      },
+      github: {
+        oauth: '/api/github/oauth/authorize',
+        webhooks: '/api/github/webhook/*',
+        rewards: '/api/github/rewards/*',
+        employee: '/api/github/employee/*',
+        education: '/api/github/education/*',
+        token: '/api/github/token/*',
+        staking: '/api/github/staking/*',
+        aiMerit: '/api/github/ai-merit/*',
+      },
+      chronicles: {
+        getMetadata: '/api/chronicles/:tokenId',
+        getAll: '/api/chronicles',
+        getFrequencies: '/api/chronicles/:tokenId/frequencies',
+        getSupply: '/api/chronicles/stats/supply',
+        create: '/api/chronicles/create (POST)',
+        mint: '/api/chronicles/mint (POST)',
       },
     },
   });

@@ -1,5 +1,9 @@
 import "@nomicfoundation/hardhat-toolbox";
 import "dotenv/config";
+import "@nomicfoundation/hardhat-ethers";
+import "@nomicfoundation/hardhat-verify";
+import { config as dotenvConfig } from "dotenv";
+dotenvConfig();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 export default {
@@ -16,11 +20,25 @@ export default {
     sepolia: {
       type: "http",
       url: process.env.SEPOLIA_RPC_URL || "",
+    hardhat: {
+      type: "edr-simulated",
+      chainId: 1337,
+    },
+    localhost: {
+      type: "http",
+      url: "http://127.0.0.1:8545",
+    },
+    sepolia: {
+      type: "http",
+      url: process.env.SEPOLIA_RPC_URL || "https://rpc.sepolia.org",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
     mumbai: {
       type: "http",
       url: process.env.ALCHEMY_MUMBAI_URL || "",
+    mainnet: {
+      type: "http",
+      url: process.env.ETH_RPC_URL || "https://ethereum-rpc.publicnode.com",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
     polygon: {
@@ -31,6 +49,9 @@ export default {
     mainnet: {
       type: "http",
       url: process.env.ETH_RPC_URL || "",
+    mumbai: {
+      type: "http",
+      url: process.env.ALCHEMY_MUMBAI_URL || "https://rpc.ankr.com/polygon_mumbai",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
   },
