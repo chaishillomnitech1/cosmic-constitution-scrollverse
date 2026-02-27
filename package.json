@@ -85,7 +85,7 @@
   "author": "ScrollVerse Team",
   "license": "MIT",
   "devDependencies": {
-    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-chai-matchers": "^3.0.0",
     "@nomicfoundation/hardhat-ethers": "^4.0.3",
     "@nomicfoundation/hardhat-network-helpers": "^3.0.3",
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
