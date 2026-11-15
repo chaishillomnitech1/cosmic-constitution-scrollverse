@@ -1,5 +1,5 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { mainnet, sepolia, polygon, polygonMumbai } from 'wagmi/chains';
+import { mainnet, sepolia, polygon, polygonAmoy } from 'wagmi/chains';
 
 export const config = getDefaultConfig({
   appName: 'ScrollVerse NFT Platform',
@@ -8,8 +8,8 @@ export const config = getDefaultConfig({
     mainnet,
     sepolia,
     polygon,
-    polygonMumbai,
-    ...(process.env.REACT_APP_ENABLE_TESTNETS === 'true' ? [sepolia, polygonMumbai] : []),
+    polygonAmoy,
+    ...(process.env.REACT_APP_ENABLE_TESTNETS === 'true' ? [sepolia, polygonAmoy] : []),
   ],
   ssr: false,
 });
@@ -40,10 +40,10 @@ export const NETWORKS = {
     name: 'Polygon',
     rpcUrl: process.env.REACT_APP_POLYGON_RPC_URL,
   },
-  mumbai: {
-    chainId: 80001,
-    name: 'Mumbai Testnet',
-    rpcUrl: process.env.REACT_APP_MUMBAI_RPC_URL,
+  polygonAmoy: {
+    chainId: 80002,
+    name: 'Polygon Amoy Testnet',
+    rpcUrl: process.env.REACT_APP_AMOY_RPC_URL,
   },
 };
 
