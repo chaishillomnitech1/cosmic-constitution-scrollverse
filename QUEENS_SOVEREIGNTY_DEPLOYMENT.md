@@ -1,3 +1,7 @@
+> **Network and evidence notice — 2026-11-15:** Polygon Mumbai (chain ID 80001) is retired. The frontend network configuration is being migrated to Polygon Amoy (chain ID 80002). The Hardhat deployment configuration in this repository is currently malformed and the package manifest pairs Hardhat 3.1.2 with the Hardhat Toolbox 6.1.0 Hardhat-2 line; the deployment toolchain must be repaired and tested before any Amoy deployment command is approved. Do not run the old Mumbai command or a Polygon mainnet command. The feature, activation, oracle, auto-mint, and airdrop descriptions below are preserved project design/plan material, not proof of deployed contracts or executed distributions.
+
+---
+
 # Queens Sovereignty Solstice Portal Deployment Guide
 
 ## Overview
@@ -70,7 +74,7 @@ npm run deploy:queens:sepolia
 
 #### Deploy to Mumbai Testnet
 ```bash
-npm run deploy:queens:mumbai
+# BLOCKED: Mumbai is retired. No Amoy deployment command is approved until the Hardhat 3 config/toolchain repair passes CI.
 ```
 
 #### Deploy to Local Network
@@ -113,7 +117,7 @@ REACT_APP_DAO_CONTRACT_ADDRESS=0x...
 
 # RPC URLs
 REACT_APP_SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
-REACT_APP_MUMBAI_RPC_URL=https://polygon-mumbai.g.alchemy.com/v2/YOUR_API_KEY
+REACT_APP_AMOY_RPC_URL=
 
 # IPFS Configuration
 REACT_APP_IPFS_GATEWAY=https://ipfs.io/ipfs/
@@ -340,7 +344,7 @@ node scripts/executeQueensAirdrop.js \
 
 ### Issue: Wallet not connecting
 - Ensure WalletConnect Project ID is configured
-- Check network is supported (Sepolia/Mumbai)
+- Check network is supported (Sepolia/Polygon Amoy); the Amoy UI network is not evidence of deployed contracts.
 - Clear browser cache and reconnect
 
 ### Issue: Crowns not displaying
