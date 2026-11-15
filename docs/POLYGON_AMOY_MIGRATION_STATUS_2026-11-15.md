@@ -29,6 +29,17 @@ Until the Hardhat configuration and dependencies are repaired:
 - Do not deploy to Polygon mainnet.
 - Treat all contract addresses, oracle integrations, auto-minting, and airdrop descriptions in legacy docs as unverified plans unless supported by chain transaction and explorer evidence.
 
+### CI evidence from the migration PR
+
+The first CI run on this draft failed before a build could complete:
+
+- Root and smart-contract installs hit npm ERESOLVE: `@nomicfoundation/hardhat-chai-matchers@2.1.0` requires `@nomicfoundation/hardhat-ethers ^3.1.0`, while the project declares `@nomicfoundation/hardhat-ethers 4.0.3` and Hardhat 3.1.2 alongside the Hardhat 2 Toolbox 6.1.0.
+- Frontend install hit npm ERESOLVE: RainbowKit 2.2.10 requires wagmi 2.x, while the project declares wagmi 3.1.3.
+- Backend `npm ci` cannot run because no package-lock.json or npm-shrinkwrap.json is present.
+- The Python 3.9 workflow setup fails on the current Ubuntu 24.04 runner image.
+
+These are repository/toolchain blockers, not evidence that the Amoy frontend change itself failed. They must be repaired and re-run before enabling deployment commands.
+
 ## Required next engineering steps
 
 1. Repair Hardhat 3 configuration and use the supported plugin registration model.
